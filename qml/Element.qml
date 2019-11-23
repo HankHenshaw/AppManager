@@ -4,11 +4,12 @@ Rectangle {
     id: root
     color: "gray" //TODO
 
+    objectName: "delegateItem"
+
     property string appLabel: ""
     property string appLogo: ""
     property var index: -1
 
-    signal signalRunApp(var i)
 
     border.color: "black"
     border.width: 1
@@ -28,14 +29,14 @@ Rectangle {
         source: appLogo
     }
 
-    MouseArea {
-        id: _ma
+//    MouseArea {
+//        id: _ma
 
-        anchors.fill: parent
-        onClicked: {
-            console.log("Test")
-            parent.signalRunApp(index)
-        }
+//        anchors.fill: parent
+//        onClicked: {
+//            console.log("Test")
+//            parent.signalRunApp(index)
+//        }
 
-    }
+//    }
 }

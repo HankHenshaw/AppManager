@@ -267,6 +267,7 @@ QList<QString> AndroidJni::getListOfPackLabel() const
 
 void AndroidJni::slotRunApp(QVariant index)
 {
+    qDebug() << "Slot";
     if(index >= 0 && index < m_listOfPackName.size())
     {
         QAndroidJniObject context = QtAndroid::androidContext();

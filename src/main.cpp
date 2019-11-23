@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     engine.load(url);
 
     QObject *obj = engine.rootObjects().first()->findChild<QObject*>("appView");
-    if(!obj) qDebug() << "Can't gind appView";
+    if(!obj) qDebug() << "Can't find appView";
     QObject::connect(obj, SIGNAL(signalRunApp(QVariant)), &model, SIGNAL(sigRunApp(QVariant)));
 
     return app.exec();

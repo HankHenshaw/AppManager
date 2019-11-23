@@ -7,6 +7,8 @@ ListView {
 
     objectName: "appView"
 
+    signal signalRunApp(var i)
+
     delegate: Element {
         appLabel: display
         appLogo: "image://prov/" + model.index
@@ -15,5 +17,15 @@ ListView {
         height: root.height/4
 
         index: model.index
+
+        MouseArea {
+            id: _ma
+
+            anchors.fill: parent
+            onClicked: {
+                console.log("Test")
+                root.signalRunApp(index)
+            }
+        }
     }
 }
