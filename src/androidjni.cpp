@@ -163,7 +163,7 @@ void AndroidJni::getAppIcon()
 
             m_listOfPackIcon.append(m_icon);
         } else if (m_env->IsInstanceOf(icon.object(), adaptiveIconDrawableClass)) {
-            qDebug() << "Icon is adaptiveIconDrawable class";
+//            qDebug() << "Icon is adaptiveIconDrawable class";
 
             QAndroidJniObject iconFront = icon.callObjectMethod("getForeground", "()Landroid/graphics/drawable/Drawable;");
             QAndroidJniObject iconBack = icon.callObjectMethod("getBackground", "()Landroid/graphics/drawable/Drawable;");
@@ -238,10 +238,10 @@ void AndroidJni::getAppIcon()
             /*jbyteArray to QByteArray*/
 
             m_icon.loadFromData(iconArr);
-            if(m_icon.isNull())
-                qDebug() << "Image is null";
-            else
-                qDebug() << "Image is not null";
+//            if(m_icon.isNull())
+//                qDebug() << "Image is null";
+//            else
+//                qDebug() << "Image is not null";
 
             m_listOfPackIcon.append(m_icon);
         } else {

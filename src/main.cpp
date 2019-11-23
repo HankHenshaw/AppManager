@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QDebug>
 #include "imageprovider.h"
 #include "appmodel.h"
 
@@ -17,7 +18,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("provider", imgProvider.data());
     engine.addImageProvider("prov", imgProvider.data());
     engine.rootContext()->setContextProperty("AppModel", &model);
-    const QUrl url(QStringLiteral("qrc:/main.qml"));
+    const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
         if (!obj && url == objUrl)
@@ -26,6 +27,7 @@ int main(int argc, char *argv[])
     engine.load(url);
 
     QObject *obj = engine.rootObjects().first()->findChild<QObject*>("appView");
+    if(!obj) qDebug() << "Can't gind appView";
     QObject::connect(obj, SIGNAL(signalRunApp(QVariant)), &model, SIGNAL(sigRunApp(QVariant)));
 
     return app.exec();
