@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtQuick.Controls 2.12
 
 Rectangle {
     id: root
@@ -14,6 +15,7 @@ Rectangle {
     border.color: "black"
     border.width: 1
 
+    //TODO: Place this in horizontalLayout (Row)
     Text {
         id: _appLabel
 
@@ -27,5 +29,14 @@ Rectangle {
         anchors.verticalCenter: parent.verticalCenter
         anchors.margins: 10
         source: appLogo
+    }
+    Button {
+        id: _contextMenu
+
+        height: parent.height - 2
+        width: parent.width/10
+        anchors.right: parent.right
+        anchors.verticalCenter: parent.verticalCenter
+        icon.source: "qrc:/icons/button-of-three-vertical-squares.png"
     }
 }

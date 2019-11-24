@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/button-of-three-vertical-squares.png</file>
+        <file>icons/menu.png</file>
+    </qresource>
+</RCC>

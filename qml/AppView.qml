@@ -14,7 +14,7 @@ ListView {
         appLogo: "image://prov/" + model.index
 
         width: root.width
-        height: root.height/4
+        height: root.height/6
 
         index: model.index
 
