@@ -28,15 +28,4 @@ Rectangle {
         anchors.margins: 10
         source: appLogo
     }
-
-//    MouseArea {
-//        id: _ma
-
-//        anchors.fill: parent
-//        onClicked: {
-//            console.log("Test")
-//            parent.signalRunApp(index)
-//        }
-
-//    }
 }
