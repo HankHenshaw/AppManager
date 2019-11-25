@@ -14,8 +14,9 @@ Window {
 
     readonly property Window mainWindow: root
 
-    Material.theme: Material.Light
-    Material.accent: Material.Orange
+    Material.theme: Material.Light //TODO: Switch Between Light and Dark
+    Material.foreground: Material.DeepOrange
+    Material.accent: Material.DeepPurple
 
     AppView {
         Header {

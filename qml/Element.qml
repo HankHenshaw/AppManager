@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.12
 import QtGraphicalEffects 1.0
+import QtQuick.Controls.Material 2.12
 
 Rectangle {
     id: root
@@ -11,9 +12,8 @@ Rectangle {
     property string appLogo: ""
     property var index: -1
 
-
-//    border.color: "black"
-//    border.width: 1 //TODO: Replace border with horizontal line?
+//    color: "#424242" //Dark Theme
+    color: "#FFFFFF" //Light Theme
 
     //TODO: Place this in horizontalLayout (Row)
     Text {
@@ -21,6 +21,7 @@ Rectangle {
 
         anchors.centerIn: parent
         text: appLabel
+        color: Material.color(Material.DeepOrange)
     }
 
     Image {
@@ -55,6 +56,7 @@ Rectangle {
         anchors.rightMargin: 1
         anchors.verticalCenter: parent.verticalCenter
         icon.source: "qrc:/icons/button-of-three-vertical-squares.png"
+        Material.background: "transparent"
 
         onClicked: {
             console.log("Context Menu")

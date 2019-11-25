@@ -1,11 +1,15 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.12
+import QtQuick.Controls.Material 2.12
 
 Rectangle {
     id: root
 
     width: parent.width
     height: parent.height/10
+
+//    color: "#505050" //Dark Theme
+    color: "#D7D7D7" //Light Theme
 
     Button {
         id: _optionsButton
@@ -15,6 +19,8 @@ Rectangle {
         anchors.left: parent.left
         anchors.top: parent.top
         icon.source: "qrc:/icons/menu.png" //TODO: svg icon instead of png
+
+        Material.background: "transparent"
 
         onClicked: drawer.open()
 
@@ -73,7 +79,7 @@ Rectangle {
         id: _appName
 
         text: qsTr("App Manager")
-        color: "red"
+        color: Material.color(Material.DeepOrange)
         anchors.centerIn: root
     }
     Button {
@@ -84,6 +90,8 @@ Rectangle {
         anchors.top: parent.top
         anchors.right: parent.right
         icon.source: "qrc:/icons/search.png"
+
+        Material.background: "transparent"
 
         onClicked: {
             console.log("Search")
