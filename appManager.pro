@@ -1,4 +1,4 @@
-QT += quick androidextras
+QT += quick quickcontrols2 androidextras
 
 CONFIG += c++11
 

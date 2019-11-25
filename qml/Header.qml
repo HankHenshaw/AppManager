@@ -76,4 +76,17 @@ Rectangle {
         color: "red"
         anchors.centerIn: root
     }
+    Button {
+        id: _buttonSearch
+
+        width: parent.height
+        height: parent.height
+        anchors.top: parent.top
+        anchors.right: parent.right
+        icon.source: "qrc:/icons/search.png"
+
+        onClicked: {
+            console.log("Search")
+        }
+    }
 }

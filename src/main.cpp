@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QDebug>
+#include <QQuickStyle>
 #include "imageprovider.h"
 #include "appmodel.h"
 
@@ -14,6 +15,7 @@ int main(int argc, char *argv[])
     QScopedPointer<ImageProvider> imgProvider(new ImageProvider);
     AppModel model(imgProvider.data());
 
+    QQuickStyle::setStyle("Material");
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("provider", imgProvider.data());
     engine.addImageProvider("prov", imgProvider.data());

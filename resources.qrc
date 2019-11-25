@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>icons/button-of-three-vertical-squares.png</file>
         <file>icons/menu.png</file>
+        <file>icons/search.png</file>
     </qresource>
 </RCC>
