@@ -14,14 +14,28 @@ Window {
 
     readonly property Window mainWindow: root
 
-    Material.theme: Material.Light //TODO: Switch Between Light and Dark
+    Material.theme: Material.Dark //TODO: Switch Between Light and Dark
     Material.foreground: Material.DeepOrange
     Material.accent: Material.DeepPurple
 
-    AppView {
-        Header {
+    Header {
+        id: _header
 
-        }
-        anchors.fill: parent
+        anchors.left: parent.left
+        anchors.top: parent.top
     }
+    Rectangle {
+        id: _restRect
+
+        anchors.left: parent.left
+        anchors.top: _header.bottom
+        width: parent.width
+        height: parent.height - _header.height
+        z: -1
+        AppView {
+            anchors.fill: parent
+        }
+    }
+
+
 }

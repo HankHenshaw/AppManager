@@ -8,8 +8,8 @@ Rectangle {
     width: parent.width
     height: parent.height/10
 
-//    color: "#505050" //Dark Theme
-    color: "#D7D7D7" //Light Theme
+    color: "#505050" //Dark Theme
+//    color: "#D7D7D7" //Light Theme
 
     Button {
         id: _optionsButton
@@ -17,6 +17,7 @@ Rectangle {
         width: parent.height
         height: parent.height
         anchors.left: parent.left
+        anchors.leftMargin: 6 //TODO: Replace with relative value or anchors
         anchors.top: parent.top
         icon.source: "qrc:/icons/menu.png" //TODO: svg icon instead of png
 

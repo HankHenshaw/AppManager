@@ -12,8 +12,8 @@ Rectangle {
     property string appLogo: ""
     property var index: -1
 
-//    color: "#424242" //Dark Theme
-    color: "#FFFFFF" //Light Theme
+    color: "#424242" //Dark Theme
+//    color: "#FFFFFF" //Light Theme
 
     //TODO: Place this in horizontalLayout (Row)
     Text {
@@ -31,7 +31,7 @@ Rectangle {
         height: parent.height * 0.7
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
-        anchors.margins: parent.width * 0.05
+        anchors.margins: parent.width * 0.02
         source: appLogo
         layer.enabled: true
         layer.effect: OpacityMask {
