@@ -11,6 +11,17 @@ Rectangle {
     color: "#505050" //Dark Theme
 //    color: "#D7D7D7" //Light Theme
 
+    TextField {
+        id: _searchFilter
+
+        anchors.top: _optionsButton.top
+        anchors.left: _optionsButton.right
+        anchors.topMargin: 5 //TODO: Replace with relative value or anchors
+        width: parent.width - _optionsButton.width - _buttonSearch.width
+        height: parent.height
+        visible: false
+    }
+
     Button {
         id: _optionsButton
 
@@ -70,6 +81,7 @@ Rectangle {
                     text: "Quit"
                     width: parent.width
                     height: parent.height/5
+
                 }
             }
         }
@@ -95,6 +107,11 @@ Rectangle {
         Material.background: "transparent"
 
         onClicked: {
+            if(_appName.visible === true) _appName.visible = false
+            else _appName.visible = true
+
+            if(_searchFilter.visible === true) _searchFilter.visible = false
+            else _searchFilter.visible = true
             console.log("Search")
         }
     }
