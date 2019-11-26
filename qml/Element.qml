@@ -12,8 +12,7 @@ Rectangle {
     property string appLogo: ""
     property var index: -1
 
-    color: "#424242" //Dark Theme
-//    color: "#FFFFFF" //Light Theme
+    color: "#424242" //Dark Theme TODO: Change this color
 
     //TODO: Place this in horizontalLayout (Row)
     Text {

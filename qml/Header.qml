@@ -9,7 +9,6 @@ Rectangle {
     height: parent.height/10
 
     color: "#505050" //Dark Theme
-//    color: "#D7D7D7" //Light Theme
 
     TextField {
         id: _searchFilter
@@ -73,6 +72,18 @@ Rectangle {
                     width: parent.width
                     height: parent.height/5
                     checked: false
+
+                    onCheckedChanged: {
+                        if(checked) {
+                            themeStyle = Material.Light
+                            root.color = "#D7D7D7"
+                            elemColor = "#FFFFFF"
+                        } else {
+                            themeStyle = Material.Dark
+                            root.color =  "#505050"
+                            elemColor = "#424242"
+                        }
+                    }
                 }
                 //TODO: Add Separator
                 Button{
@@ -82,6 +93,9 @@ Rectangle {
                     width: parent.width
                     height: parent.height/5
 
+                    onClicked: {
+                        Qt.quit()
+                    }
                 }
             }
         }
@@ -107,10 +121,10 @@ Rectangle {
         Material.background: "transparent"
 
         onClicked: {
-            if(_appName.visible === true) _appName.visible = false
+            if(_appName.visible) _appName.visible = false
             else _appName.visible = true
 
-            if(_searchFilter.visible === true) _searchFilter.visible = false
+            if(_searchFilter.visible) _searchFilter.visible = false
             else _searchFilter.visible = true
             console.log("Search")
         }

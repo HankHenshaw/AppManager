@@ -13,8 +13,10 @@ Window {
     title: qsTr("Hello World")
 
     readonly property Window mainWindow: root
+    property var themeStyle: Material.Dark
 
-    Material.theme: Material.Dark //TODO: Switch Between Light and Dark
+//    Material.theme: Material.Dark //TODO: Switch Between Light and Dark
+    Material.theme: themeStyle
     Material.foreground: Material.DeepOrange
     Material.accent: Material.DeepPurple
 
