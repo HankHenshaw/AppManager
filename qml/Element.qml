@@ -47,11 +47,11 @@ Rectangle {
         visible: false
     }
 
-    Button { //TODO: Слот элемента модели вызывается раньше слота кнопки
-        id: _contextMenu
+    Button {
+        id: _buttonContextMenu
 
-        height: parent.height - 2
-        width: parent.width/10
+        height: parent.height
+        width: parent.width*0.1
         anchors.right: parent.right
         anchors.rightMargin: 1
         anchors.verticalCenter: parent.verticalCenter
@@ -59,7 +59,18 @@ Rectangle {
         Material.background: "transparent"
 
         onClicked: {
+            _contextMenu.popup()
             console.log("Context Menu")
+        }
+
+        Menu {
+            id: _contextMenu
+
+            Action {text: "Run App"}
+            Action {text: "Remove App"}
+            Action {text: "App Info"}
+            MenuSeparator{}
+            Action {text: "Delete App"}
         }
     }
 }

@@ -21,7 +21,10 @@ ListView {
         MouseArea {
             id: _ma
 
-            anchors.fill: parent
+            anchors.left: parent.left
+            anchors.top: parent.top
+            width: parent.width - parent.width * 0.1
+            height: parent.height
             onClicked: {
                 console.log("Test")
                 root.signalRunApp(index)
