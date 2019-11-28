@@ -77,11 +77,11 @@ Rectangle {
                         if(checked) {
                             themeStyle = Material.Light
                             root.color = "#D7D7D7"
-                            elemColor = "#FFFFFF"
+                            elemColor = "#FFFFFF" //TODO
                         } else {
                             themeStyle = Material.Dark
                             root.color =  "#505050"
-                            elemColor = "#424242"
+                            elemColor = "#424242" //TODO
                         }
                     }
                 }

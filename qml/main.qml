@@ -12,8 +12,11 @@ Window {
     height: 480
     title: qsTr("Hello World")
 
-    readonly property Window mainWindow: root
+    property Window mainWindow: root //readonly?
     property var themeStyle: Material.Dark
+    readonly property Popup popupInfo: _popUpAppInfo
+    readonly property Dialog dialogRemove: _dialogRemoveApp
+    readonly property Dialog dialogDelete: _dialogDeleteApp
 
 //    Material.theme: Material.Dark //TODO: Switch Between Light and Dark
     Material.theme: themeStyle
@@ -39,5 +42,53 @@ Window {
         }
     }
 
+    Popup {
+        id: _popUpAppInfo
 
+        modal: true
+        focus: true
+        width: parent.width
+        height: parent.height
+        anchors.centerIn: parent
+        closePolicy: Popup.CloseOnEscape
+
+        contentItem: Text {
+            text: "Hello"
+            anchors.centerIn: parent
+        }
+    }
+
+    Dialog {
+        id: _dialogRemoveApp
+
+        focus: true
+        width: 300 //TODO: Replace with relative value
+        height: 125 //TODO: Replace with relative value
+        anchors.centerIn: parent
+        standardButtons: Dialog.Ok | Dialog.Cancel
+
+        Text {
+            id: _upperRemoveText
+
+            text: qsTr("Are you sure want to remove\nthis application from this list?") //TODO: Replace application with real app name
+            anchors.centerIn: parent
+        }
+    }
+
+    Dialog {
+        id: _dialogDeleteApp
+
+        focus: true
+        width: 300 //TODO: Replace with relative value
+        height: 125 //TODO: Replace with relative value
+        anchors.centerIn: parent
+        standardButtons: Dialog.Ok | Dialog.Cancel
+
+        Text { //TODO: Text color, accept, reject slots
+            id: _upperDeleteText
+
+            text: qsTr("Are you sure want to erase\nthis application from your device?") //TODO: Replace application with real app name
+            anchors.centerIn: parent
+        }
+    }
 }

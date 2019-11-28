@@ -11,6 +11,7 @@ Rectangle {
     property string appLabel: ""
     property string appLogo: ""
     property var index: -1
+    property Rectangle elemRect: root
 
     color: "#424242" //Dark Theme TODO: Change this color
 
@@ -66,10 +67,32 @@ Rectangle {
             id: _contextMenu
 
             Action {text: "Run App"}
-            Action {text: "Remove App"}
-            Action {text: "App Info"}
+            Action {
+                id: _actionRemoveApp
+
+                text: "Remove App"
+                onTriggered: {
+                    dialogRemove.open()
+                }
+            }
+            Action {
+                id: _actionAppInfo
+
+                text: "App Info"
+                onTriggered: {
+                    popupInfo.open()
+                }
+            }
+
             MenuSeparator{}
-            Action {text: "Delete App"}
+            Action {
+                id: _actionDeleteApp
+
+                text: "Delete App"
+                onTriggered: {
+                    dialogDelete.open()
+                }
+            }
         }
     }
 }
