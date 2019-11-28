@@ -8,7 +8,7 @@ Rectangle {
     width: parent.width
     height: parent.height/10
 
-    color: "#505050" //Dark Theme
+    color: headerColor
 
     TextField {
         id: _searchFilter
@@ -56,6 +56,10 @@ Rectangle {
                     text: "AdvancedOptions"
                     width: parent.width
                     height: parent.height/5
+
+                    onClicked: {
+                        _popUpAdvOptions.open()
+                    }
                 }
                 Switch{
                     id: _fullList
@@ -74,18 +78,9 @@ Rectangle {
                     checked: false
 
                     onCheckedChanged: {
-                        if(checked) {
-                            themeStyle = Material.Light
-                            root.color = "#D7D7D7"
-                            elemColor = "#FFFFFF" //TODO
-                        } else {
-                            themeStyle = Material.Dark
-                            root.color =  "#505050"
-                            elemColor = "#424242" //TODO
-                        }
+                        themeStyle === Material.Dark ? themeStyle = Material.Light : themeStyle = Material.Dark
                     }
                 }
-                //TODO: Add Separator
                 Button{
                     id: _buttonQuit
 
@@ -106,7 +101,7 @@ Rectangle {
         id: _appName
 
         text: qsTr("App Manager")
-        color: Material.color(Material.DeepOrange)
+        color: textColor
         anchors.centerIn: root
     }
     Button {

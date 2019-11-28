@@ -13,7 +13,7 @@ Rectangle {
     property var index: -1
     property Rectangle elemRect: root
 
-    color: "#424242" //Dark Theme TODO: Change this color
+    color: elementColor
 
     //TODO: Place this in horizontalLayout (Row)
     Text {
@@ -21,7 +21,7 @@ Rectangle {
 
         anchors.centerIn: parent
         text: appLabel
-        color: Material.color(Material.DeepOrange)
+        color: textColor
     }
 
     Image {
@@ -66,7 +66,14 @@ Rectangle {
         Menu {
             id: _contextMenu
 
-            Action {text: "Run App"}
+            Action {
+                id: _actionRunApp
+
+                text: "Run App"
+                onTriggered: {
+                    signalRunApp(model.index)
+                }
+            }
             Action {
                 id: _actionRemoveApp
 
