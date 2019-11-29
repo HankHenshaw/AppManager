@@ -6,12 +6,15 @@ Rectangle {
     id: root
 
     width: parent.width
-    height: parent.height/10
+    height: parent.height*0.1
 
     color: headerColor
 
     TextField {
         id: _searchFilter
+
+        objectName: "SearchFilter"
+        signal signalSearchText(var text)
 
         anchors.top: _optionsButton.top
         anchors.left: _optionsButton.right
@@ -19,6 +22,7 @@ Rectangle {
         width: parent.width - _optionsButton.width - _buttonSearch.width
         height: parent.height
         visible: false
+        onDisplayTextChanged: signalSearchText(displayText)
     }
 
     Button {

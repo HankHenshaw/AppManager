@@ -16,6 +16,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     src/androidjni.cpp \
     src/appmodel.cpp \
+    src/appproxymodel.cpp \
     src/imageprovider.cpp \
     src/main.cpp
 
@@ -36,4 +37,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     src/androidjni.h \
     src/appmodel.h \
+    src/appproxymodel.h \
     src/imageprovider.h
