@@ -54,21 +54,43 @@ Window {
         anchors.centerIn: parent
         closePolicy: Popup.CloseOnEscape
 
-        contentItem: Text {
-            text: "Hello"
-            color: textColor
-            anchors.centerIn: parent
+        Column {
+            anchors.fill: parent
+
+            spacing: 5 //TODO: test value
+            Text {
+                id: _appInfoLabel
+
+                text: qsTr("Application Name")
+                color: textColor
+            }
+            Text {
+                id: _appInfoPackageName
+
+                text: qsTr("Application Package Name")
+                color: textColor
+            }
+            Text {
+                id: _appInfoMore
+
+                text: qsTr("Application Some Info")
+                color: textColor
+            }
         }
     }
 
     Dialog {
         id: _dialogRemoveApp
 
+        title: qsTr("Remove Application")
         focus: true
         width: parent.width * 0.9
         height: parent.height * 0.33
         anchors.centerIn: parent
         standardButtons: Dialog.Ok | Dialog.Cancel
+
+        onAccepted: console.log("Remove Dialog Ok")
+        onRejected: console.log("Remove Dialog Cancel")
 
         Text {
             id: _upperRemoveText
@@ -82,14 +104,19 @@ Window {
     Dialog {
         id: _dialogDeleteApp
 
+        title: qsTr("Delete Application")
         focus: true
         width: parent.width * 0.9
         height: parent.height * 0.33
         anchors.centerIn: parent
         standardButtons: Dialog.Ok | Dialog.Cancel
 
+        onAccepted: console.log("Delete Dialog Ok")
+        onRejected: console.log("Delete Dialog Cancel")
+
         Text { //TODO: accept, reject slots
             id: _upperDeleteText
+
 
             text: qsTr("Are you sure want to erase\nthis application from your device?") //TODO: Replace application with real app name
             color: textColor
@@ -107,10 +134,63 @@ Window {
         anchors.centerIn: parent
         closePolicy: Popup.CloseOnEscape
 
-        contentItem: Text {
-            text: "Hello"
-            color: textColor
-            anchors.centerIn: parent
+        Column { //TODO: Edit elements width
+            anchors.fill: parent
+
+            spacing: 5 // TODO: Test value
+
+            /*Language*/
+            Text {
+                text: qsTr("Language")
+                color: textColor
+            }
+
+            ButtonGroup {
+                id: _languageGroup
+
+                exclusive: true
+                buttons: _languageColumn.children
+            }
+
+            Column {
+                id: _languageColumn
+
+                CheckBox {
+                    text: "English"
+                    checked: true
+                }
+                CheckBox {
+                    text: "Русский"
+                    checked: false
+                }
+            }
+            /*Language*/
+
+            MenuSeparator {width: root.width - root.width*0.1}
+
+            Button {
+                id: _buttonAbout
+
+                text: qsTr("About App")
+                onClicked: _dialogAbout.open()
+
+                Dialog { //TODO?: Separator between header and text
+                    id: _dialogAbout
+
+                    title: qsTr("About")
+                    focus: true
+                    width: root.width * 0.9
+                    height: root.height * 0.33
+                    standardButtons: Dialog.Ok
+
+                    Text {
+                        text: qsTr("Some Text")
+                        color: textColor
+                        anchors.centerIn: parent
+                    }
+                }
+            }
+
         }
     }
 }

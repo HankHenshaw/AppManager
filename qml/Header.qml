@@ -53,7 +53,7 @@ Rectangle {
                 Button {
                     id: _buttonAdvOptions
 
-                    text: "AdvancedOptions"
+                    text: "Options"
                     width: parent.width
                     height: parent.height/5
 
