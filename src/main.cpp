@@ -38,10 +38,12 @@ int main(int argc, char *argv[])
     QObject *appView = engine.rootObjects().first()->findChild<QObject*>("appView");
     if(!appView) qDebug() << "Can't find appView";
     QObject::connect(appView, SIGNAL(signalRunApp(QVariant)), &model, SIGNAL(sigRunApp(QVariant)));
+    QObject::connect(appView, SIGNAL(signalGetAppInfo(QVariant)), &model, SIGNAL(signalAppInfo(QVariant)));
 
     QObject *searchLine = engine.rootObjects().first()->findChild<QObject*>("SearchFilter");
     if(!searchLine) qDebug() << "Can't find SearchFilter";
     QObject::connect(searchLine, SIGNAL(signalSearchText(QVariant)), &proxy, SLOT(slotSearchText(QVariant)));
+
 
     return app.exec();
 }

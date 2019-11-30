@@ -8,6 +8,7 @@ ListView {
     objectName: "appView"
 
     signal signalRunApp(var i)
+    signal signalGetAppInfo(var i)
 
     delegate: Element {
         appLabel: display

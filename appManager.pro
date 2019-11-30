@@ -23,6 +23,8 @@ SOURCES += \
 RESOURCES += qml.qrc \
     resources.qrc
 
+INCLUDEPATH += $$PWD/include/
+
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
 
@@ -35,7 +37,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    src/androidjni.h \
-    src/appmodel.h \
-    src/appproxymodel.h \
-    src/imageprovider.h
+    include/androidjni.h \
+    include/appmodel.h \
+    include/appproxymodel.h \
+    include/imageprovider.h \

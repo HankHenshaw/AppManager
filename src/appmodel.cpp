@@ -13,6 +13,7 @@ AppModel::AppModel(ImageProvider *ip, QObject *parent)
     m_imgProvider->fillMap(m_native.getListOfPackIcon());
 
     connect(this, SIGNAL(sigRunApp(QVariant)), &m_native, SLOT(slotRunApp(QVariant)));
+    connect(this, SIGNAL(signalAppInfo(QVariant)), &m_native, SLOT(slotAppInfo(QVariant)));
 }
 
 int AppModel::rowCount(const QModelIndex &parent) const

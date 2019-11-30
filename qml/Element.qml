@@ -87,6 +87,7 @@ Rectangle {
 
                 text: "App Info"
                 onTriggered: {
+                    signalGetAppInfo(model.index)
                     popupInfo.open()
                 }
             }

@@ -19,6 +19,16 @@ public:
     void getAppLabel();
     void getAppIcon();
 
+    enum Category {CATEGORY_UNDEFINED = -1,
+                   CATEGORY_GAME,
+                   CATEGORY_AUDIO,
+                   CATEGORY_VIDEO,
+                   CATEGORY_IMAGE,
+                   CATEGORY_SOCIAL,
+                   CATEGORY_NEWS,
+                   CATEGORY_MAPS,
+                   CATEGORY_PRODUCTIVITY};
+
     QList<QString> getListOfPackName() const;
     QList<QImage> getListOfPackIcon() const;
     QList<QString> getListOfPackLabel() const;
@@ -33,6 +43,7 @@ private:
     QAndroidJniObject m_activity;
 public slots:
     void slotRunApp(QVariant index);
+    void slotAppInfo(QVariant index);
 };
 
 #endif // ANDROIDJNI_H

@@ -250,6 +250,7 @@ void AndroidJni::getAppIcon()
     }
 }
 
+
 QList<QString> AndroidJni::getListOfPackName() const
 {
     return m_listOfPackName;
@@ -267,7 +268,7 @@ QList<QString> AndroidJni::getListOfPackLabel() const
 
 void AndroidJni::slotRunApp(QVariant index)
 {
-    qDebug() << "Slot";
+    qDebug() << "Run app slot";
     if(index >= 0 && index < m_listOfPackName.size())
     {
         QAndroidJniObject context = QtAndroid::androidContext();
@@ -282,6 +283,94 @@ void AndroidJni::slotRunApp(QVariant index)
         jmethodID startActivityId = m_env->GetMethodID(activityClass, "startActivity", "(Landroid/content/Intent;)V");
 
         m_env->CallVoidMethod(context.object(), startActivityId, launchIntent.object());
+    } else {
+        qDebug() << "Invalid Index";
+    }
+}
+
+void AndroidJni::slotAppInfo(QVariant index)
+{
+    qDebug() << "Run app slot";
+    if(index >= 0 && index < m_listOfPackName.size())
+    {
+        QAndroidJniObject context = QtAndroid::androidContext();
+        QAndroidJniObject pm = context.callObjectMethod("getPackageManager", "()Landroid/content/pm/PackageManager;");
+
+        jclass pmClass = m_env.findClass("android/content/pm/PackageManager");
+        jmethodID getAppInfoId = m_env->GetMethodID(pmClass, "getApplicationInfo", "(Ljava/lang/String;I)Landroid/content/pm/ApplicationInfo;");
+        if(!getAppInfoId)
+            qDebug() << "can't get method getApplicationInfo";
+
+        jclass appInfoClass = m_env.findClass("android/content/pm/ApplicationInfo");
+        if(!appInfoClass)
+            qDebug() << "Can't find app info class";
+
+        jstring packName = m_env->NewStringUTF(m_listOfPackName.at(index.toInt()).toStdString().c_str());
+        if(!packName) qDebug() << "Can't create new string";
+
+        QAndroidJniObject appInfo = m_env->CallObjectMethod(pm.object(), getAppInfoId, packName, 0);
+        if(!appInfo.isValid())
+            qDebug() << "can't get appInfo";
+
+        jfieldID categoryId = m_env->GetFieldID(appInfoClass, "category", "I");
+        if(!categoryId)
+            qDebug() << "Can't get Id of category field";
+
+        jint category = m_env->GetIntField(appInfo.object(), categoryId);
+        qDebug() << "Category: " << category;
+
+        switch (category) {
+            case Category::CATEGORY_GAME:
+            {
+                qDebug() << "Category Game";
+                break;
+            }
+            case Category::CATEGORY_AUDIO:
+            {
+                qDebug() << "Category Audio";
+                break;
+            }
+            case Category::CATEGORY_VIDEO:
+            {
+                qDebug() << "Category Video";
+                break;
+            }
+            case Category::CATEGORY_IMAGE:
+            {
+                qDebug() << "Category Image";
+                break;
+            }
+            case Category::CATEGORY_SOCIAL:
+            {
+                qDebug() << "Category Social";
+                break;
+            }
+            case Category::CATEGORY_NEWS:
+            {
+                qDebug() << "Category News";
+                break;
+            }
+            case Category::CATEGORY_MAPS:
+            {
+                qDebug() << "Category Maps";
+                break;
+            }
+            case Category::CATEGORY_PRODUCTIVITY:
+            {
+                qDebug() << "Category Productivity";
+                break;
+            }
+            case Category::CATEGORY_UNDEFINED:
+            {
+                qDebug() << "Category Undefined";
+                break;
+            }
+            default:
+            {
+                qDebug() << "Undefined Number:" << category;
+                break;
+            }
+        }
     } else {
         qDebug() << "Invalid Index";
     }

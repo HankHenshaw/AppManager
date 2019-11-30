@@ -21,6 +21,7 @@ private:
     QList<QString> m_nameList;
 signals:
     void sigRunApp(QVariant index);
+    void signalAppInfo(QVariant index);
 };
 
 #endif // APPMODEL_H
