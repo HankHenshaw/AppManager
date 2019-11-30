@@ -78,6 +78,7 @@ void AndroidJni::getPackageName()
             m_listOfPackName.append(packName.toString());
         /*Compare if packName system or not*/
     }
+    m_listOfPackName.append("com.google.android.youtube"); //TODO: Remove
     qDebug() << "Pass through all functions";
 }
 
@@ -371,6 +372,66 @@ void AndroidJni::slotAppInfo(QVariant index)
                 break;
             }
         }
+
+
+
+        /* Getting Permission */
+        // TODO: Test and Move to separate slot/method
+        jfieldID permissionId = m_env->GetFieldID(appInfoClass, "permission", "Ljava/lang/String;");
+        if(!categoryId)
+            qDebug() << "Can't get Id of permission field";
+
+        QAndroidJniObject permissionString = m_env->GetObjectField(appInfo.object(), permissionId);
+        qDebug() << "Permission:" << permissionString.toString();
+        /* Getting Permission */
+
+        /* Getting Min Sdk Version */
+        //TODO: Сопоставить сдк версии, версию андроида https://source.android.com/setup/start/build-numbers
+        jfieldID minSdkId = m_env->GetFieldID(appInfoClass, "minSdkVersion", "I");
+        if(!minSdkId)
+            qDebug() << "Can't get Id of minSdkVersion field";
+
+        jint minSdkVersion = m_env->GetIntField(appInfo.object(), minSdkId);
+        qDebug() << "Minimum Sdk Version:" << minSdkVersion;
+        /* Getting Min Sdk Version */
+
+        /* Getting Target Sdk Version */
+        //TODO: Сопоставить сдк версии, версию андроида https://source.android.com/setup/start/build-numbers
+        jfieldID targetSdkId = m_env->GetFieldID(appInfoClass, "targetSdkVersion", "I");
+        if(!targetSdkId)
+            qDebug() << "Can't get Id of targetSdkVersion field";
+
+        jint targetSdkVersion = m_env->GetIntField(appInfo.object(), targetSdkId);
+        qDebug() << "Target Sdk Version:" << targetSdkVersion;
+        /* Getting Target Sdk Version */
+
+        /* Getting Full path to the base Apk*/
+        jfieldID sourceId = m_env->GetFieldID(appInfoClass, "sourceDir", "Ljava/lang/String;");
+        if(!sourceId)
+            qDebug() << "Can't get Id of sourceDir field";
+
+        QAndroidJniObject sourceDir = m_env->GetObjectField(appInfo.object(), sourceId);
+        qDebug() << "Path:" << sourceDir.toString();
+        /* Getting Full path to the base Apk*/
+
+        /* Getting App Version */
+        jmethodID getPackageInfoId = m_env->GetMethodID(pmClass, "getPackageInfo", "(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;");
+        if(!getPackageInfoId)
+            qDebug() << "Can't get getPackageInfoId method";
+
+        QAndroidJniObject packageInfo = m_env->CallObjectMethod(pm.object(), getPackageInfoId, packName, 0);
+        if(!packageInfo.isValid())
+            qDebug() << "Package Info is invalid";
+
+        jclass packageInfoClass = m_env.findClass("android/content/pm/PackageInfo");
+
+        jfieldID versionNameId = m_env->GetFieldID(packageInfoClass, "versionName", "Ljava/lang/String;");
+        if(!versionNameId)
+            qDebug() << "Can't get id of versionName field";
+
+        QAndroidJniObject version = m_env->GetObjectField(packageInfo.object(), versionNameId);
+        qDebug() << "Version:" << version.toString();
+        /* Getting App Version */
     } else {
         qDebug() << "Invalid Index";
     }
