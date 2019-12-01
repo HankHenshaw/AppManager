@@ -12,12 +12,13 @@ ListView {
 
     delegate: Element {
         appLabel: display
-        appLogo: "image://prov/" + model.index
+        appLogo: "image://prov/" + modelIndex
 
         width: root.width
         height: root.height/6
 
-        index: model.index
+        modelIndex: AppModel.sourceRow(model.index)
+//        modelIndex: model.index
 
         MouseArea {
             id: _ma

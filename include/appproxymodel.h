@@ -9,7 +9,7 @@ class AppProxyModel : public QSortFilterProxyModel
     Q_OBJECT
 public:
     explicit AppProxyModel(QObject *parent = nullptr);
-
+    Q_INVOKABLE int sourceRow(int proxyRow) const;
 protected:
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
     bool lessThan(const QModelIndex &source_left, const QModelIndex &source_right) const;

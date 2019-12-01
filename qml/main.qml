@@ -25,6 +25,9 @@ Window {
     Material.foreground: Material.DeepOrange
     Material.accent: Material.DeepPurple
 
+    objectName: "mainWindow"
+    signal signalSortingOrder(int order)
+
     Header {
         id: _header
 
@@ -41,6 +44,39 @@ Window {
         z: -1
         AppView {
             anchors.fill: parent
+        }
+    }
+
+    Popup {
+        id: _popUpFilters
+
+        modal: true
+        focus: true
+        width: parent.width
+        height: parent.height
+        anchors.centerIn: parent
+        closePolicy: Popup.CloseOnEscape
+
+        Column {
+            anchors.fill: parent
+
+            Text {
+                text: qsTr("Sorting order:")
+                font.bold: true
+                color: textColor
+            }
+            RadioButton { //TODO: Search for better slot
+                text: qsTr("Ascending order")
+                onPressed: {
+                    signalSortingOrder(0)
+                }
+            }
+            RadioButton {
+                text: qsTr("Descending order")
+                onPressed: {
+                    signalSortingOrder(1)
+                }
+            }
         }
     }
 

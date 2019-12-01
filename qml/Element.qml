@@ -10,7 +10,7 @@ Rectangle {
 
     property string appLabel: ""
     property string appLogo: ""
-    property var index: -1
+    property var modelIndex: -1
     property Rectangle elemRect: root
 
     color: elementColor
@@ -71,7 +71,7 @@ Rectangle {
 
                 text: "Run App"
                 onTriggered: {
-                    signalRunApp(model.index)
+                    signalRunApp(modelIndex)
                 }
             }
             Action {
@@ -87,7 +87,7 @@ Rectangle {
 
                 text: "App Info"
                 onTriggered: {
-                    signalGetAppInfo(model.index)
+                    signalGetAppInfo(modelIndex)
                     popupInfo.open()
                 }
             }

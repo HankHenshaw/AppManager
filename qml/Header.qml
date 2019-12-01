@@ -53,6 +53,10 @@ Rectangle {
                     text: "Filters"
                     width: parent.width
                     height: parent.height/5
+
+                    onClicked: {
+                        _popUpFilters.open()
+                    }
                 }
                 Button {
                     id: _buttonAdvOptions

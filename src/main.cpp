@@ -7,10 +7,6 @@
 #include "appmodel.h"
 #include "appproxymodel.h"
 
-//TODO: ImageProvider жалуется при использовании прокси, наверное, опять проблема в индексах
-//TODO: При использовании сортировки прокси модели, неправильно отображаются иконки приложений, скорее всего, из-за того что берется индекс
-//иконки из прокси, а не из основной модели, собс-но сделсть возможность вызвать mapToSource из QML
-
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -44,6 +40,12 @@ int main(int argc, char *argv[])
     if(!searchLine) qDebug() << "Can't find SearchFilter";
     QObject::connect(searchLine, SIGNAL(signalSearchText(QVariant)), &proxy, SLOT(slotSearchText(QVariant)));
 
+    QObject *mainWindow = engine.rootObjects().first()->findChild<QObject*>("mainWindow");
+    if(!mainWindow) qDebug() << "Can't find mainWindow";
+//    QObject::connect(mainWindow, SIGNAL(signalSortingOrder),
+//                     [&proxy](int sort)
+//                     {if(!sort) proxy.sort(0);
+//                     else if(sort == 1) proxy.sort(0, Qt::DescendingOrder);});
 
     return app.exec();
 }

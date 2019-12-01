@@ -5,6 +5,13 @@ AppProxyModel::AppProxyModel(QObject *parent) : QSortFilterProxyModel(parent)
 
 }
 
+int AppProxyModel::sourceRow(int proxyRow) const
+{
+    QModelIndex proxyIndex = index(proxyRow, 0, QModelIndex());
+    QModelIndex sourceIndex = mapToSource(proxyIndex);
+    return sourceIndex.row();
+}
+
 bool AppProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
     bool result = QSortFilterProxyModel::filterAcceptsRow(source_row, source_parent);
