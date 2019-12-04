@@ -7,6 +7,9 @@
 #include "appmodel.h"
 #include "appproxymodel.h"
 
+//TODO: Пофиксить. после добавления beginResetModel() и endResetModel() в прокси, при выборе сортировке вылетает предепреждение о невалидном индексе модели
+//(т.е. индекс с номером -1), но артефактов в отображении модели не заметно.
+
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -40,12 +43,9 @@ int main(int argc, char *argv[])
     if(!searchLine) qDebug() << "Can't find SearchFilter";
     QObject::connect(searchLine, SIGNAL(signalSearchText(QVariant)), &proxy, SLOT(slotSearchText(QVariant)));
 
-    QObject *mainWindow = engine.rootObjects().first()->findChild<QObject*>("mainWindow");
+    QObject *mainWindow = engine.rootObjects().first();
     if(!mainWindow) qDebug() << "Can't find mainWindow";
-//    QObject::connect(mainWindow, SIGNAL(signalSortingOrder),
-//                     [&proxy](int sort)
-//                     {if(!sort) proxy.sort(0);
-//                     else if(sort == 1) proxy.sort(0, Qt::DescendingOrder);});
+    QObject::connect(mainWindow, SIGNAL(signalSortingOrder(int)), &proxy, SLOT(slotSorting(int)));
 
     return app.exec();
 }

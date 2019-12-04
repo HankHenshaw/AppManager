@@ -18,7 +18,6 @@ ListView {
         height: root.height/6
 
         modelIndex: AppModel.sourceRow(model.index)
-//        modelIndex: model.index
 
         MouseArea {
             id: _ma

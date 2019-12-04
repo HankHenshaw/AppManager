@@ -15,6 +15,7 @@ protected:
     bool lessThan(const QModelIndex &source_left, const QModelIndex &source_right) const;
 public slots:
     void slotSearchText(QVariant text);
+    void slotSorting(int sortOrder);
 };
 
 #endif // APPPROXYMODEL_H

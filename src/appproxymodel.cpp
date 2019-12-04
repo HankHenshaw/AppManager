@@ -35,3 +35,11 @@ void AppProxyModel::slotSearchText(QVariant text)
     QRegExp filterExpr(text.toString(), Qt::CaseInsensitive, QRegExp::RegExp);
     setFilterRegExp(filterExpr);
 }
+
+void AppProxyModel::slotSorting(int sortOrder)
+{
+    beginResetModel();
+    if(!sortOrder) sort(0);
+    else if(sortOrder == 1) sort(0, Qt::DescendingOrder);
+    endResetModel();
+}
