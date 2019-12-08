@@ -35,3 +35,33 @@ QVariant AppModel::data(const QModelIndex &index, int role) const
 
     return QVariant();
 }
+
+QVariant AppModel::getCategory(QVariant index)
+{
+    return m_native.getCategory(index);
+}
+
+QVariant AppModel::getVersion(QVariant index)
+{
+    return m_native.getVersion(index);
+}
+
+QVariant AppModel::getMinSdk(QVariant index)
+{
+    return m_native.getMinSdk(index);
+}
+
+QVariant AppModel::getTargetSdk(QVariant index)
+{
+    return m_native.getTargetSdk(index);
+}
+
+QVariant AppModel::getPackagePath(QVariant index)
+{
+    return m_native.getPackagePath(index);
+}
+
+QVariant AppModel::getPackageName(QVariant index)
+{
+    return m_native.getPackageName(index);
+}

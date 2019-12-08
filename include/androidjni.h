@@ -32,6 +32,13 @@ public:
     QList<QString> getListOfPackName() const;
     QList<QImage> getListOfPackIcon() const;
     QList<QString> getListOfPackLabel() const;
+
+    QVariant getCategory(QVariant index);
+    QVariant getVersion(QVariant index);
+    QVariant getMinSdk(QVariant index);
+    QVariant getTargetSdk(QVariant index);
+    QVariant getPackagePath(QVariant index);
+    QVariant getPackageName(QVariant index);
 private:
     QList<QString> m_listOfPackName;
     QList<QImage> m_listOfPackIcon;

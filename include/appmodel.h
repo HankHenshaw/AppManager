@@ -15,6 +15,12 @@ public:
 
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
+    Q_INVOKABLE QVariant getCategory(QVariant index);
+    Q_INVOKABLE QVariant getVersion(QVariant index);
+    Q_INVOKABLE QVariant getMinSdk(QVariant index);
+    Q_INVOKABLE QVariant getTargetSdk(QVariant index);
+    Q_INVOKABLE QVariant getPackagePath(QVariant index);
+    Q_INVOKABLE QVariant getPackageName(QVariant index);
 private:
     ImageProvider *m_imgProvider;
     AndroidJni m_native;

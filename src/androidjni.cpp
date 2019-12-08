@@ -267,6 +267,259 @@ QList<QString> AndroidJni::getListOfPackLabel() const
     return m_listOfPackLabel;
 }
 
+QVariant AndroidJni::getCategory(QVariant index)
+{
+    QString categoryStr;
+    if(index >= 0 && index < m_listOfPackName.size())
+    {
+        QAndroidJniObject context = QtAndroid::androidContext();
+        QAndroidJniObject pm = context.callObjectMethod("getPackageManager", "()Landroid/content/pm/PackageManager;");
+
+        jclass pmClass = m_env.findClass("android/content/pm/PackageManager");
+        jmethodID getAppInfoId = m_env->GetMethodID(pmClass, "getApplicationInfo", "(Ljava/lang/String;I)Landroid/content/pm/ApplicationInfo;");
+        if(!getAppInfoId)
+            qDebug() << "can't get method getApplicationInfo";
+
+        jclass appInfoClass = m_env.findClass("android/content/pm/ApplicationInfo");
+        if(!appInfoClass)
+            qDebug() << "Can't find app info class";
+
+        jstring packName = m_env->NewStringUTF(m_listOfPackName.at(index.toInt()).toStdString().c_str());
+        if(!packName) qDebug() << "Can't create new string";
+
+        QAndroidJniObject appInfo = m_env->CallObjectMethod(pm.object(), getAppInfoId, packName, 0);
+        if(!appInfo.isValid())
+            qDebug() << "can't get appInfo";
+
+        jfieldID categoryId = m_env->GetFieldID(appInfoClass, "category", "I");
+        if(!categoryId)
+            qDebug() << "Can't get Id of category field";
+
+        jint category = m_env->GetIntField(appInfo.object(), categoryId);
+        qDebug() << "Category: " << category;
+
+        switch (category) {
+            case Category::CATEGORY_GAME:
+            {
+                categoryStr = "Game";
+                qDebug() << "Category Game";
+                break;
+            }
+            case Category::CATEGORY_AUDIO:
+            {
+                categoryStr = "Audio";
+                qDebug() << "Category Audio";
+                break;
+            }
+            case Category::CATEGORY_VIDEO:
+            {
+                categoryStr = "Video";
+                qDebug() << "Category Video";
+                break;
+            }
+            case Category::CATEGORY_IMAGE:
+            {
+                categoryStr = "Image";
+                qDebug() << "Category Image";
+                break;
+            }
+            case Category::CATEGORY_SOCIAL:
+            {
+                categoryStr = "Social";
+                qDebug() << "Category Social";
+                break;
+            }
+            case Category::CATEGORY_NEWS:
+            {
+                categoryStr = "News";
+                qDebug() << "Category News";
+                break;
+            }
+            case Category::CATEGORY_MAPS:
+            {
+                categoryStr = "Maps";
+                qDebug() << "Category Maps";
+                break;
+            }
+            case Category::CATEGORY_PRODUCTIVITY:
+            {
+                categoryStr = "Productivity";
+                qDebug() << "Category Productivity";
+                break;
+            }
+            case Category::CATEGORY_UNDEFINED:
+            {
+                categoryStr = "Undefined";
+                qDebug() << "Category Undefined";
+                break;
+            }
+            default:
+            {
+                qDebug() << "Undefined Number:" << category;
+                break;
+            }
+        }
+    }
+    return categoryStr;
+}
+
+QVariant AndroidJni::getVersion(QVariant index)
+{
+    QString versionStr;
+
+    if(index >= 0 && index < m_listOfPackName.size())
+    {
+        QAndroidJniObject context = QtAndroid::androidContext();
+        QAndroidJniObject pm = context.callObjectMethod("getPackageManager", "()Landroid/content/pm/PackageManager;");
+
+        jclass pmClass = m_env.findClass("android/content/pm/PackageManager");
+        jmethodID getAppInfoId = m_env->GetMethodID(pmClass, "getApplicationInfo", "(Ljava/lang/String;I)Landroid/content/pm/ApplicationInfo;");
+        if(!getAppInfoId)
+            qDebug() << "can't get method getApplicationInfo";
+
+        jstring packName = m_env->NewStringUTF(m_listOfPackName.at(index.toInt()).toStdString().c_str());
+        if(!packName) qDebug() << "Can't create new string";
+
+        jmethodID getPackageInfoId = m_env->GetMethodID(pmClass, "getPackageInfo", "(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;");
+        if(!getPackageInfoId)
+            qDebug() << "Can't get getPackageInfoId method";
+
+        QAndroidJniObject packageInfo = m_env->CallObjectMethod(pm.object(), getPackageInfoId, packName, 0);
+        if(!packageInfo.isValid())
+            qDebug() << "Package Info is invalid";
+
+        jclass packageInfoClass = m_env.findClass("android/content/pm/PackageInfo");
+
+        jfieldID versionNameId = m_env->GetFieldID(packageInfoClass, "versionName", "Ljava/lang/String;");
+        if(!versionNameId)
+            qDebug() << "Can't get id of versionName field";
+
+        QAndroidJniObject version = m_env->GetObjectField(packageInfo.object(), versionNameId);
+        qDebug() << "Version:" << version.toString();
+
+        versionStr = version.toString();
+    }
+
+    return versionStr;
+}
+
+QVariant AndroidJni::getMinSdk(QVariant index) //TODO: Convert API vers to Android vers
+{
+    int minSdk = -1;
+    if(index >= 0 && index < m_listOfPackName.size())
+    {
+        QAndroidJniObject context = QtAndroid::androidContext();
+        QAndroidJniObject pm = context.callObjectMethod("getPackageManager", "()Landroid/content/pm/PackageManager;");
+
+        jclass pmClass = m_env.findClass("android/content/pm/PackageManager");
+        jmethodID getAppInfoId = m_env->GetMethodID(pmClass, "getApplicationInfo", "(Ljava/lang/String;I)Landroid/content/pm/ApplicationInfo;");
+        if(!getAppInfoId)
+            qDebug() << "can't get method getApplicationInfo";
+
+        jclass appInfoClass = m_env.findClass("android/content/pm/ApplicationInfo");
+        if(!appInfoClass)
+            qDebug() << "Can't find app info class";
+
+        jstring packName = m_env->NewStringUTF(m_listOfPackName.at(index.toInt()).toStdString().c_str());
+        if(!packName) qDebug() << "Can't create new string";
+
+        QAndroidJniObject appInfo = m_env->CallObjectMethod(pm.object(), getAppInfoId, packName, 0);
+        if(!appInfo.isValid())
+            qDebug() << "can't get appInfo";
+
+        jfieldID minSdkId = m_env->GetFieldID(appInfoClass, "minSdkVersion", "I");
+        if(!minSdkId)
+            qDebug() << "Can't get Id of minSdkVersion field";
+
+        jint minSdkVersion = m_env->GetIntField(appInfo.object(), minSdkId);
+        qDebug() << "Minimum Sdk Version:" << minSdkVersion;
+
+        minSdk = minSdkVersion;
+    }
+    return minSdk;
+}
+
+QVariant AndroidJni::getTargetSdk(QVariant index) //TODO: Convert API vers to Android vers
+{
+    int targetSdk = -1;
+    if(index >= 0 && index < m_listOfPackName.size())
+    {
+        QAndroidJniObject context = QtAndroid::androidContext();
+        QAndroidJniObject pm = context.callObjectMethod("getPackageManager", "()Landroid/content/pm/PackageManager;");
+
+        jclass pmClass = m_env.findClass("android/content/pm/PackageManager");
+        jmethodID getAppInfoId = m_env->GetMethodID(pmClass, "getApplicationInfo", "(Ljava/lang/String;I)Landroid/content/pm/ApplicationInfo;");
+        if(!getAppInfoId)
+            qDebug() << "can't get method getApplicationInfo";
+
+        jclass appInfoClass = m_env.findClass("android/content/pm/ApplicationInfo");
+        if(!appInfoClass)
+            qDebug() << "Can't find app info class";
+
+        jstring packName = m_env->NewStringUTF(m_listOfPackName.at(index.toInt()).toStdString().c_str());
+        if(!packName) qDebug() << "Can't create new string";
+
+        QAndroidJniObject appInfo = m_env->CallObjectMethod(pm.object(), getAppInfoId, packName, 0);
+        if(!appInfo.isValid())
+            qDebug() << "can't get appInfo";
+
+        jfieldID targetSdkId = m_env->GetFieldID(appInfoClass, "targetSdkVersion", "I");
+        if(!targetSdkId)
+            qDebug() << "Can't get Id of targetSdkVersion field";
+
+        jint targetSdkVersion = m_env->GetIntField(appInfo.object(), targetSdkId);
+        qDebug() << "Target Sdk Version:" << targetSdkVersion;
+
+        targetSdk = targetSdkVersion;
+    }
+    return targetSdk;
+}
+
+QVariant AndroidJni::getPackagePath(QVariant index)
+{
+    QString pathStr;
+    if(index >= 0 && index < m_listOfPackName.size())
+    {
+        QAndroidJniObject context = QtAndroid::androidContext();
+        QAndroidJniObject pm = context.callObjectMethod("getPackageManager", "()Landroid/content/pm/PackageManager;");
+
+        jclass pmClass = m_env.findClass("android/content/pm/PackageManager");
+        jmethodID getAppInfoId = m_env->GetMethodID(pmClass, "getApplicationInfo", "(Ljava/lang/String;I)Landroid/content/pm/ApplicationInfo;");
+        if(!getAppInfoId)
+            qDebug() << "can't get method getApplicationInfo";
+
+        jclass appInfoClass = m_env.findClass("android/content/pm/ApplicationInfo");
+        if(!appInfoClass)
+            qDebug() << "Can't find app info class";
+
+        jstring packName = m_env->NewStringUTF(m_listOfPackName.at(index.toInt()).toStdString().c_str());
+        if(!packName) qDebug() << "Can't create new string";
+
+        QAndroidJniObject appInfo = m_env->CallObjectMethod(pm.object(), getAppInfoId, packName, 0);
+        if(!appInfo.isValid())
+            qDebug() << "can't get appInfo";
+
+        jfieldID sourceId = m_env->GetFieldID(appInfoClass, "sourceDir", "Ljava/lang/String;");
+        if(!sourceId)
+            qDebug() << "Can't get Id of sourceDir field";
+
+        QAndroidJniObject sourceDir = m_env->GetObjectField(appInfo.object(), sourceId);
+        qDebug() << "Path:" << sourceDir.toString();
+
+        pathStr = sourceDir.toString();
+    }
+    return pathStr;
+}
+
+QVariant AndroidJni::getPackageName(QVariant index)
+{
+    if(index >= 0 && index < m_listOfPackName.size())
+    {
+        return m_listOfPackName.at(index.toInt());
+    }
+    return "Invalid Index";
+}
+
 void AndroidJni::slotRunApp(QVariant index)
 {
     qDebug() << "Run app slot";
@@ -432,6 +685,20 @@ void AndroidJni::slotAppInfo(QVariant index)
         QAndroidJniObject version = m_env->GetObjectField(packageInfo.object(), versionNameId);
         qDebug() << "Version:" << version.toString();
         /* Getting App Version */
+
+        /* Getting Requested Permission */
+        QAndroidJniObject packageInfoPermission = m_env->CallObjectMethod(pm.object(), getPackageInfoId, packName, 4096);
+        if(!packageInfoPermission.isValid())
+            qDebug() << "Package Info is invalid";
+
+        jfieldID requestedPermissionId = m_env->GetFieldID(packageInfoClass, "requestedPermissions", "[Ljava/lang/String;");
+        if(!requestedPermissionId)
+            qDebug() << "Can't get id of requestedPermissions field";
+
+        jobject requestedPermission = m_env->GetObjectField(packageInfo.object(), requestedPermissionId);
+        if(!requestedPermission)
+            qDebug() << "Failed to get requestedPermissions";  //Возможно что здесь фейлится из-за того что запускаю на симуляторе
+        /* Getting Requested Permission */
     } else {
         qDebug() << "Invalid Index";
     }

@@ -12,7 +12,7 @@ Window {
 
     property var themeStyle: Material.Dark
     readonly property Window mainWindow: root
-    readonly property Popup popupInfo: _popUpAppInfo
+//    readonly property Popup popupInfo: _popUpAppInfo
     readonly property Dialog dialogRemove: _dialogRemoveApp
     readonly property Dialog dialogDelete: _dialogDeleteApp
     readonly property Popup popupAdvOptions: _popUpAdvOptions
@@ -80,40 +80,40 @@ Window {
         }
     }
 
-    Popup { //TODO: Fill this widget
-        id: _popUpAppInfo
+//    Popup { //TODO: Fill this widget
+//        id: _popUpAppInfo
 
-        modal: true
-        focus: true
-        width: parent.width
-        height: parent.height
-        anchors.centerIn: parent
-        closePolicy: Popup.CloseOnEscape
+//        modal: true
+//        focus: true
+//        width: parent.width
+//        height: parent.height
+//        anchors.centerIn: parent
+//        closePolicy: Popup.CloseOnEscape
 
-        Column {
-            anchors.fill: parent
+//        Column {
+//            anchors.fill: parent
 
-            spacing: 5 //TODO: test value
-            Text {
-                id: _appInfoLabel
+//            spacing: 5 //TODO: test value
+//            Text {
+//                id: _appInfoLabel
 
-                text: qsTr("Application Name")
-                color: textColor
-            }
-            Text {
-                id: _appInfoPackageName
+//                text: qsTr("Application Name")
+//                color: textColor
+//            }
+//            Text {
+//                id: _appInfoPackageName
 
-                text: qsTr("Application Package Name")
-                color: textColor
-            }
-            Text {
-                id: _appInfoMore
+//                text: qsTr("Application Package Name")
+//                color: textColor
+//            }
+//            Text {
+//                id: _appInfoMore
 
-                text: qsTr("Application Some Info")
-                color: textColor
-            }
-        }
-    }
+//                text: qsTr("Application Some Info")
+//                color: textColor
+//            }
+//        }
+//    }
 
     Dialog {
         id: _dialogRemoveApp

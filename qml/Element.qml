@@ -59,6 +59,14 @@ Rectangle {
         Material.background: "transparent"
 
         onClicked: {
+            _infoImg.source = "image://prov/" + modelIndex
+            _appName.text = appLabel
+            _appPackageName.text = "Package: " + AppModel.sourceModel.getPackageName(modelIndex)
+            _appPath.text = AppModel.sourceModel.getPackagePath(modelIndex)
+            _appMinSdk.text = "Minimum Sdk Version: " + AppModel.sourceModel.getMinSdk(modelIndex)
+            _appTargetSdk.text = "Target Sdk Version: " + AppModel.sourceModel.getTargetSdk(modelIndex)
+            _appVersion.text = "Version: " + AppModel.sourceModel.getVersion(modelIndex)
+            _appCategory.text = "Category: " + AppModel.sourceModel.getCategory(modelIndex)
             _contextMenu.popup()
             console.log("Context Menu")
         }
