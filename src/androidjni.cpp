@@ -699,6 +699,90 @@ void AndroidJni::slotAppInfo(QVariant index)
         if(!requestedPermission)
             qDebug() << "Failed to get requestedPermissions";  //Возможно что здесь фейлится из-за того что запускаю на симуляторе
         /* Getting Requested Permission */
+
+        /* Getting package size */
+        //Not necessary?
+//        jfieldID publicSourceDirId = m_env->GetFieldID(appInfoClass, "publicSourceDir", "Ljava/lang/String;");
+//        if(!publicSourceDirId)
+//            qDebug() << "Can't get id of publicSourceDir field";
+
+//        QAndroidJniObject publicSourceDir = m_env->GetObjectField(appInfo.object(), publicSourceDirId);
+//        qDebug() << publicSourceDir.toString();
+        //Not neccessary?
+
+//        jclass methodClass = m_env.findClass("java.lang.reflect.Method");
+//        if(!methodClass)
+//            qDebug() << "Can't find method class";
+
+        /* For Api < 26 */
+        jmethodID getClassId = m_env->GetMethodID(pmClass, "getClass", "()Ljava/lang/Class;");
+        if(!getClassId)
+            qDebug() << "Can't get id of getClass method";
+
+        QAndroidJniObject classObj = m_env->CallObjectMethod(pm.object(), getClassId);
+        if(!classObj.isValid())
+            qDebug() << "Can't get class obj";
+
+        jclass classClass = m_env.findClass("java/lang/Class");
+        if(!classClass)
+            qDebug() << "Can't find Class class";
+
+        //TODO!
+        /* For Api < 26 */
+        /* For Api >= 26 */
+        jstring storageStatsService = m_env->NewStringUTF("storagestats");
+        if(!storageStatsService)
+            qDebug() << "Can't create new string";
+
+        QAndroidJniObject storageStatsManager = context.callObjectMethod("getSystemService", "(Ljava/lang/String;)Ljava/lang/Object;", storageStatsService);
+        if(!storageStatsManager.isValid())
+            qDebug() << "Can't get StorageStatsManager from getSystemService method";
+
+        jstring storageService = m_env->NewStringUTF("storage");
+        if(!storageService)
+            qDebug() << "Can't create new string";
+
+        QAndroidJniObject storageManager = context.callObjectMethod("getSystemService", "(Ljava/lang/String;)Ljava/lang/Object;", storageService);
+        if(!storageManager.isValid())
+            qDebug() << "Can't get StorageManager from getSystemService method";
+
+        jclass storageStatsClass = m_env.findClass("android/app/usage/StorageStats");
+        if(!storageStatsClass)
+            qDebug() << "Can't find storageStats class";
+
+        jclass storageStatsManagerClass = m_env.findClass("android/app/usage/StorageStatsManager");
+        if(!storageStatsManagerClass)
+            qDebug() << "Can't find storageStatsManager class";
+
+        jfieldID storageUuidId = m_env->GetFieldID(appInfoClass, "storageUuid", "Ljava/util/UUID;");
+        if(!storageUuidId)
+            qDebug() << "Can't get id of storageUuid field";
+
+        jfieldID uidId = m_env->GetFieldID(appInfoClass, "uid", "I");
+        if(!uidId)
+            qDebug() << "Can't get id of uid field";
+
+        jint uid = m_env->GetIntField(appInfo.object(), uidId);
+        if(!uid)
+            qDebug() << "Failed to get uid";
+
+        QAndroidJniObject storageUuid = m_env->GetObjectField(appInfo.object(), storageUuidId);
+        if(!storageUuid.isValid())
+            qDebug() << "Failed to get storageUuid";
+
+        jmethodID queryStatsForUidId = m_env->GetMethodID(storageStatsManagerClass, "queryStatsForUid", "(Ljava/util/UUID;I)Landroid/app/usage/StorageStats;");
+        if(!queryStatsForUidId)
+            qDebug() << "Can't get id of queryStatsForUid method";
+
+        QAndroidJniObject storageStats = m_env->CallObjectMethod(storageStatsManager.object(), queryStatsForUidId, storageUuid.object(), uid);
+        if(!storageStats.isValid())
+            qDebug() << "Failed to get storageStats";
+        //TODO: storageStats failed
+        //TODO: Looking for queryStatsForPackage method instead of queryStatsForUid
+        //TODO: also Looking for USAGE ACCESS PERMISSION
+        /* For Api >= 26 */
+
+        /* Getting package size */
     } else {
         qDebug() << "Invalid Index";
     }
