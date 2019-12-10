@@ -21,6 +21,7 @@ public:
     Q_INVOKABLE QVariant getTargetSdk(QVariant index);
     Q_INVOKABLE QVariant getPackagePath(QVariant index);
     Q_INVOKABLE QVariant getPackageName(QVariant index);
+    Q_INVOKABLE QVariant getPackageSize(QVariant index);
 private:
     ImageProvider *m_imgProvider;
     AndroidJni m_native;

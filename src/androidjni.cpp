@@ -520,6 +520,60 @@ QVariant AndroidJni::getPackageName(QVariant index)
     return "Invalid Index";
 }
 
+QVariant AndroidJni::getPackageSize(QVariant index)
+{
+    if(index >= 0 && index < m_listOfPackName.size())
+    {
+        QAndroidJniObject context = QtAndroid::androidContext();
+        QAndroidJniObject pm = context.callObjectMethod("getPackageManager", "()Landroid/content/pm/PackageManager;");
+
+        jclass pmClass = m_env.findClass("android/content/pm/PackageManager");
+        jmethodID getAppInfoId = m_env->GetMethodID(pmClass, "getApplicationInfo", "(Ljava/lang/String;I)Landroid/content/pm/ApplicationInfo;");
+        if(!getAppInfoId)
+            qDebug() << "can't get method getApplicationInfo";
+
+        jclass appInfoClass = m_env.findClass("android/content/pm/ApplicationInfo");
+        if(!appInfoClass)
+            qDebug() << "Can't find app info class";
+
+        jstring packName = m_env->NewStringUTF(m_listOfPackName.at(index.toInt()).toStdString().c_str());
+        if(!packName) qDebug() << "Can't create new string";
+
+        QAndroidJniObject appInfo = m_env->CallObjectMethod(pm.object(), getAppInfoId, packName, 0);
+        if(!appInfo.isValid())
+            qDebug() << "can't get appInfo";
+
+        jfieldID sourceId = m_env->GetFieldID(appInfoClass, "sourceDir", "Ljava/lang/String;");
+        if(!sourceId)
+            qDebug() << "Can't get Id of sourceDir field";
+
+        QAndroidJniObject sourceDir = m_env->GetObjectField(appInfo.object(), sourceId);
+        qDebug() << "Path:" << sourceDir.toString();
+
+        jclass fileClass = m_env.findClass("java/io/File");
+        if(!fileClass)
+            qDebug() << "Failed to find File class";
+
+        jmethodID fileConstrId = m_env->GetMethodID(fileClass, "<init>", "(Ljava/lang/String;)V");
+        if(!fileConstrId)
+            qDebug() << "Failed to get id of File constructor";
+
+        QAndroidJniObject file = m_env->NewObject(fileClass, fileConstrId, sourceDir.object());
+        if(!file.isValid())
+            qDebug() << "Failed to create File object";
+
+        jmethodID lengthId = m_env->GetMethodID(fileClass, "length", "()J");
+        if(!lengthId)
+            qDebug() << "Failed to get id of length method";
+
+        jlong dirSize = m_env->CallLongMethod(file.object(), lengthId);
+
+        int size = dirSize/1048576;
+        return size;
+    }
+    return 0;
+}
+
 void AndroidJni::slotRunApp(QVariant index)
 {
     qDebug() << "Run app slot";
@@ -774,12 +828,106 @@ void AndroidJni::slotAppInfo(QVariant index)
         if(!queryStatsForUidId)
             qDebug() << "Can't get id of queryStatsForUid method";
 
-        QAndroidJniObject storageStats = m_env->CallObjectMethod(storageStatsManager.object(), queryStatsForUidId, storageUuid.object(), uid);
-        if(!storageStats.isValid())
-            qDebug() << "Failed to get storageStats";
+//        QAndroidJniObject storageStats = m_env->CallObjectMethod(storageStatsManager.object(), queryStatsForUidId, storageUuid.object(), uid);
+//        if(!storageStats.isValid())
+//            qDebug() << "Failed to get storageStats";
         //TODO: storageStats failed
         //TODO: Looking for queryStatsForPackage method instead of queryStatsForUid
         //TODO: also Looking for USAGE ACCESS PERMISSION
+//        jclass contextClass = m_env.findClass("android/content/Context");
+//        if(!contextClass)
+//            qDebug() << "Can't find Context class";
+
+//        jmethodID getSystemServiceId = m_env->GetMethodID(contextClass, "getSystemService", "(Ljava/lang/String;)Ljava/lang/Object;");
+//        if(!getSystemServiceId)
+//            qDebug() << "Can't get id of getSystemService method";
+
+//        jstring appOpServiceStr = m_env->NewStringUTF("appops");
+//        if(!appOpServiceStr)
+//            qDebug() << "Failed to create new string";
+
+//        QAndroidJniObject getSystemService = m_env->CallObjectMethod(context.object(), getSystemServiceId, appOpServiceStr);
+//        if(!getSystemService.isValid())
+//            qDebug() << "Failed to get SystemService";
+
+//        jstring usageAccessSettingsStr = m_env->NewStringUTF("android.settings.USAGE_ACCESS_SETTINGS");
+//        if(!usageAccessSettingsStr)
+//            qDebug() << "Failed to create new string";
+
+//        jclass intentClass = m_env.findClass("android/content/Intent");
+//        if(!intentClass)
+//            qDebug() << "Can't find Intent class";
+
+//        jmethodID intentConstrId = m_env->GetMethodID(intentClass, "<init>", "(Ljava/lang/String;)V");
+//        if(!intentConstrId)
+//            qDebug() << "Can't get id of intent constructor";
+
+//        QAndroidJniObject intent = m_env->NewObject(intentClass, intentConstrId, usageAccessSettingsStr);
+//        if(!intent.isValid())
+//            qDebug() << "Failed to create intent object";
+
+//        jclass activityClass = m_env.findClass("android/app/Activity");
+//        if(!activityClass)
+//            qDebug() << "Can't find Activity class";
+
+//        jmethodID startActivityId = m_env->GetMethodID(activityClass, "startActivity", "(Landroid/content/Intent;)V");
+//        if(!startActivityId)
+//            qDebug() << "Failed to get id of startActivity method";
+
+//        m_env->CallVoidMethod(context.object(), startActivityId, intent.object());
+        /*Getting App Size*/
+        jclass fileClass = m_env.findClass("java/io/File");
+        if(!fileClass)
+            qDebug() << "Failed to find File class";
+
+        jmethodID fileConstrId = m_env->GetMethodID(fileClass, "<init>", "(Ljava/lang/String;)V");
+        if(!fileConstrId)
+            qDebug() << "Failed to get id of File constructor";
+
+        QAndroidJniObject file = m_env->NewObject(fileClass, fileConstrId, sourceDir.object());
+        if(!file.isValid())
+            qDebug() << "Failed to create File object";
+
+        jmethodID lengthId = m_env->GetMethodID(fileClass, "length", "()J");
+        if(!lengthId)
+            qDebug() << "Failed to get id of length method";
+
+        jlong dirSize = m_env->CallLongMethod(file.object(), lengthId);
+        qDebug() << "App Size:" << static_cast<long>(dirSize/1048576) << "MB";
+        /*Getting App Size*/
+        /*Getting App Cache Dir Size*/
+        jclass contextClass = m_env.findClass("android/content/Context");
+        if(!contextClass)
+            qDebug() << "Failed to get Context class";
+
+        jmethodID createPackageContextId = m_env->GetMethodID(contextClass, "createPackageContext", "(Ljava/lang/String;I)Landroid/content/Context;");
+        if(!createPackageContextId)
+            qDebug() << "Failed to get id of createPackageContext method";
+
+        QAndroidJniObject packContext = m_env->CallObjectMethod(context.object(), createPackageContextId, packName, 2);
+        if(!packContext.isValid())
+            qDebug() << "Failed to createPackageContext";
+
+        jmethodID getCacheDirId = m_env->GetMethodID(contextClass, "getCacheDir", "()Ljava/io/File;");
+        if(!getCacheDirId)
+            qDebug() << "Failed to get id of getCacheDir method";
+
+        QAndroidJniObject cacheFile = m_env->CallObjectMethod(packContext.object(), getCacheDirId);
+        if(!cacheFile.isValid())
+            qDebug() << "Failed to get cache file";
+
+        qDebug() << "Cache dir:" << cacheFile.toString();
+
+        jmethodID listFilesId = m_env->GetMethodID(fileClass, "listFiles", "()[Ljava/io/File;");
+        if(!listFilesId)
+            qDebug() << "Failed to get id of listFiles method";
+
+        QAndroidJniObject fileArray = m_env->CallObjectMethod(cacheFile.object(), listFilesId);
+        if(!fileArray.isValid())
+            qDebug() << "Failed to get array of cache directory";
+        //TODO: Cache size
+        /*Getting App Cache Dir Size*/
+
         /* For Api >= 26 */
 
         /* Getting package size */

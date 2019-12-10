@@ -146,5 +146,14 @@ ListView {
             height: 3
             color: Material.accent
         }
+
+        Text {
+            id: _packSize
+
+            anchors.top: _sepatator2.bottom
+            anchors.topMargin: 5
+            anchors.left: parent.left
+            color: textColor
+        }
     }
 }

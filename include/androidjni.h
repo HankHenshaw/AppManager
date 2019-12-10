@@ -39,6 +39,7 @@ public:
     QVariant getTargetSdk(QVariant index);
     QVariant getPackagePath(QVariant index);
     QVariant getPackageName(QVariant index);
+    QVariant getPackageSize(QVariant index);
 private:
     QList<QString> m_listOfPackName;
     QList<QImage> m_listOfPackIcon;

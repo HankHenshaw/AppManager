@@ -65,3 +65,8 @@ QVariant AppModel::getPackageName(QVariant index)
 {
     return m_native.getPackageName(index);
 }
+
+QVariant AppModel::getPackageSize(QVariant index)
+{
+    return m_native.getPackageSize(index);
+}

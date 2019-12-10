@@ -67,6 +67,7 @@ Rectangle {
             _appTargetSdk.text = "Target Sdk Version: " + AppModel.sourceModel.getTargetSdk(modelIndex)
             _appVersion.text = "Version: " + AppModel.sourceModel.getVersion(modelIndex)
             _appCategory.text = "Category: " + AppModel.sourceModel.getCategory(modelIndex)
+            _packSize.text = "Package Size: ~" + AppModel.sourceModel.getPackageSize(modelIndex) + " MB"
             _contextMenu.popup()
             console.log("Context Menu")
         }
