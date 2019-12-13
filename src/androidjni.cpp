@@ -574,6 +574,55 @@ QVariant AndroidJni::getPackageSize(QVariant index)
     return 0;
 }
 
+jlong AndroidJni::sizeOfFiles(const QAndroidJniObject &obj)
+{
+    jclass fileClass = m_env.findClass("java/io/File"); //TODO: REFACTOR
+    if(!fileClass)
+        qDebug() << "Can't find File class";
+
+    jmethodID isDirectoryId = m_env->GetMethodID(fileClass, "isDirectory", "()Z");
+    if(!isDirectoryId)
+        qDebug() << "Failed to get id of isDirectory method";
+
+    jmethodID isFileId = m_env->GetMethodID(fileClass, "isFile", "()Z");
+    if(!isFileId)
+        qDebug() << "Failed to get id of isFile method";
+
+    jmethodID lengthId = m_env->GetMethodID(fileClass, "length", "()J");
+    if(!lengthId)
+        qDebug() << "Failed to get id of length method";
+
+    jmethodID listFilesId = m_env->GetMethodID(fileClass, "listFiles", "()[Ljava/io/File;");
+    if(!listFilesId)
+        qDebug() << "Failed to get id of listFiles method";
+
+    jint arrSize = m_env->GetArrayLength(static_cast<jobjectArray>(obj.object()));
+    jobjectArray fileArray = static_cast<jobjectArray>(obj.object());
+    jlong sum = 0;
+    qDebug() << "Cache Array Size:" << arrSize;
+
+    for(int i = 0; i < arrSize; ++i)
+    {
+        jsize index = static_cast<jint>(i);
+        QAndroidJniObject arrElem = m_env->GetObjectArrayElement(fileArray, index);
+        if(!arrElem.isValid())
+            qDebug() << "Failed to get element of array";
+
+        jboolean isDirectory = m_env->CallBooleanMethod(arrElem.object(), isDirectoryId);
+        jboolean isFile = m_env->CallBooleanMethod(arrElem.object(), isFileId);
+
+        if(arrElem.isValid() && isDirectory)
+        {
+            QAndroidJniObject arr = m_env->CallObjectMethod(arrElem.object(), listFilesId);
+            sum += sizeOfFiles(arr);
+        } else if(arrElem.isValid() && isFile) {
+            sum += m_env->CallLongMethod(arrElem.object(), lengthId);
+            qDebug() << "Sum:" << sum;
+        }
+    }
+    return arrSize;
+}
+
 void AndroidJni::slotRunApp(QVariant index)
 {
     qDebug() << "Run app slot";
@@ -908,16 +957,29 @@ void AndroidJni::slotAppInfo(QVariant index)
         if(!packContext.isValid())
             qDebug() << "Failed to createPackageContext";
 
+        /*Cache Dir*/
         jmethodID getCacheDirId = m_env->GetMethodID(contextClass, "getCacheDir", "()Ljava/io/File;");
         if(!getCacheDirId)
             qDebug() << "Failed to get id of getCacheDir method";
 
-        QAndroidJniObject cacheFile = m_env->CallObjectMethod(packContext.object(), getCacheDirId);
+        QAndroidJniObject cacheFile = m_env->CallObjectMethod(context.object(), getCacheDirId);
         if(!cacheFile.isValid())
             qDebug() << "Failed to get cache file";
 
         qDebug() << "Cache dir:" << cacheFile.toString();
+        /*Cache Dir*/
+        /*External Cache Dir*/
+        jmethodID getExternalCacheDirId = m_env->GetMethodID(contextClass, "getExternalCacheDir", "()Ljava/io/File;");
+        if(!getExternalCacheDirId)
+            qDebug() << "Failed to get id of getExternalCacheDir method";
 
+        QAndroidJniObject externalCacheFile = m_env->CallObjectMethod(context.object(), getExternalCacheDirId);
+        if(!externalCacheFile.isValid())
+            qDebug() << "Failed to get path of externalChacheFile";
+
+        qDebug() << "External Cache dir:" << externalCacheFile.toString();
+        /*External Cache Dir*/
+        /*Getting List of Cache Files*/
         jmethodID listFilesId = m_env->GetMethodID(fileClass, "listFiles", "()[Ljava/io/File;");
         if(!listFilesId)
             qDebug() << "Failed to get id of listFiles method";
@@ -925,9 +987,23 @@ void AndroidJni::slotAppInfo(QVariant index)
         QAndroidJniObject fileArray = m_env->CallObjectMethod(cacheFile.object(), listFilesId);
         if(!fileArray.isValid())
             qDebug() << "Failed to get array of cache directory";
-        //TODO: Cache size
-        /*Getting App Cache Dir Size*/
 
+        /*Getting List of Cache Files*/
+        /*Getting App Cache Dir Size*/
+        jlong cacheBytes = 0;
+        cacheBytes += sizeOfFiles(fileArray);
+        //TODO!
+        /*Getting App Cache Dir Size*/
+        /*Getting App External Cache Dir Size*/
+        QAndroidJniObject externalFileArray = m_env->CallObjectMethod(externalCacheFile.object(), listFilesId);
+        if(!externalFileArray.isValid())
+            qDebug() << "Failed to get list of external cache files";
+
+        cacheBytes += sizeOfFiles(externalFileArray);
+        qDebug() << "Size of cache files:" << cacheBytes;
+        /*Getting App External Cache Dir Size*/
+
+        //TODO: Cache size
         /* For Api >= 26 */
 
         /* Getting package size */

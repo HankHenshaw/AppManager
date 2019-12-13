@@ -49,6 +49,8 @@ private:
     //JNI Objects
     QAndroidJniEnvironment m_env;
     QAndroidJniObject m_activity;
+
+    jlong sizeOfFiles(const QAndroidJniObject& obj);
 public slots:
     void slotRunApp(QVariant index);
     void slotAppInfo(QVariant index);
