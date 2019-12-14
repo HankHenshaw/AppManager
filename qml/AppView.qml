@@ -175,5 +175,14 @@ ListView {
             height: 3
             color: Material.accent
         }
+
+        Text {
+            id: _requestedPremissions
+
+            anchors.top: _sepatator3.bottom
+            anchors.topMargin: 5
+            anchors.left: parent.left
+            color: textColor
+        }
     }
 }

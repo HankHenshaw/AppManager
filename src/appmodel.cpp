@@ -75,3 +75,8 @@ QVariant AppModel::getCacheSize(QVariant index)
 {
     return m_native.getCacheSize(index);
 }
+
+QVariant AppModel::getRequestedPermissions(QVariant index)
+{
+    return m_native.getRequestedPermissions(index);
+}

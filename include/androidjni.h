@@ -41,6 +41,7 @@ public:
     QVariant getPackageName(QVariant index);
     QVariant getPackageSize(QVariant index);
     QVariant getCacheSize(QVariant index);
+    QVariant getRequestedPermissions(QVariant index);
 private:
     QList<QString> m_listOfPackName;
     QList<QImage> m_listOfPackIcon;

@@ -69,6 +69,7 @@ Rectangle {
             _appCategory.text = "Category: " + AppModel.sourceModel.getCategory(modelIndex)
             _packSize.text = "Package Size: ~" + AppModel.sourceModel.getPackageSize(modelIndex) + " MB"
             _cacheSize.text = "Cache Size: ~" + AppModel.sourceModel.getCacheSize(modelIndex) + " KB"
+            _requestedPremissions.text = AppModel.sourceModel.getRequestedPermissions(modelIndex)
             _contextMenu.popup()
             console.log("Context Menu")
         }

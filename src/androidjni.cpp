@@ -650,6 +650,52 @@ QVariant AndroidJni::getCacheSize(QVariant index)
     return cache;
 }
 
+QVariant AndroidJni::getRequestedPermissions(QVariant index)
+{
+    QString permString;
+    if(index >= 0 && index < m_listOfPackName.size())
+    {
+        QAndroidJniObject context = QtAndroid::androidContext();
+        QAndroidJniObject pm = context.callObjectMethod("getPackageManager", "()Landroid/content/pm/PackageManager;");
+
+        jstring packName = m_env->NewStringUTF(m_listOfPackName.at(index.toInt()).toStdString().c_str());
+        if(!packName) qDebug() << "Can't create new string";
+
+        jclass packageInfoClass = m_env.findClass("android/content/pm/PackageInfo");
+
+        jclass pmClass = m_env.findClass("android/content/pm/PackageManager");
+
+        jmethodID getPackageInfoId = m_env->GetMethodID(pmClass, "getPackageInfo", "(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;");
+        if(!getPackageInfoId)
+            qDebug() << "Can't get getPackageInfoId method";
+
+        QAndroidJniObject packageInfoPermission = m_env->CallObjectMethod(pm.object(), getPackageInfoId, packName, 4096);
+        if(!packageInfoPermission.isValid())
+            qDebug() << "Package Info is invalid";
+
+        jfieldID requestedPermissionId = m_env->GetFieldID(packageInfoClass, "requestedPermissions", "[Ljava/lang/String;");
+        if(!requestedPermissionId)
+            qDebug() << "Can't get id of requestedPermissions field";
+
+        QAndroidJniObject requestedPermission = m_env->GetObjectField(packageInfoPermission.object(), requestedPermissionId);
+        if(!requestedPermission.isValid())
+            qDebug() << "Failed to get requestedPermissions";  //Возможно что здесь фейлится из-за того что запускаю на симуляторе
+
+        jint permissionArrSize = m_env->GetArrayLength(static_cast<jobjectArray>(requestedPermission.object()));
+        qDebug() << "Number of permissions:" << permissionArrSize;
+
+        jobjectArray permArray = static_cast<jobjectArray>(requestedPermission.object());
+        for(int i = 0; i < permissionArrSize; ++i)
+        {
+            jsize index = i;
+            QAndroidJniObject arrElem = m_env->GetObjectArrayElement(permArray, index);
+            permString += arrElem.toString() + '\n';
+        }
+        permString.remove(permString.size()-1, 1);
+    }
+    return permString;
+}
+
 jlong AndroidJni::sizeOfFiles(const QAndroidJniObject &obj)
 {
     jclass fileClass = m_env.findClass("java/io/File"); //TODO: REFACTOR
@@ -693,7 +739,6 @@ jlong AndroidJni::sizeOfFiles(const QAndroidJniObject &obj)
             sum += sizeOfFiles(arr);
         } else if(arrElem.isValid() && isFile) {
             sum += m_env->CallLongMethod(arrElem.object(), lengthId);
-            qDebug() << "Sum:" << sum;
         }
     }
     return sum;
@@ -874,9 +919,20 @@ void AndroidJni::slotAppInfo(QVariant index)
         if(!requestedPermissionId)
             qDebug() << "Can't get id of requestedPermissions field";
 
-        jobject requestedPermission = m_env->GetObjectField(packageInfo.object(), requestedPermissionId);
-        if(!requestedPermission)
+        QAndroidJniObject requestedPermission = m_env->GetObjectField(packageInfoPermission.object(), requestedPermissionId);
+        if(!requestedPermission.isValid())
             qDebug() << "Failed to get requestedPermissions";  //Возможно что здесь фейлится из-за того что запускаю на симуляторе
+
+        jint permissionArrSize = m_env->GetArrayLength(static_cast<jobjectArray>(requestedPermission.object()));
+        qDebug() << "Number of permissions:" << permissionArrSize;
+
+        jobjectArray permArray = static_cast<jobjectArray>(requestedPermission.object());
+        for(int i = 0; i < permissionArrSize; ++i)
+        {
+            jsize index = i;
+            QAndroidJniObject arrElem = m_env->GetObjectArrayElement(permArray, index);
+            qDebug() << "Permission:" << arrElem.toString();
+        }
         /* Getting Requested Permission */
 
         /* Getting package size */
