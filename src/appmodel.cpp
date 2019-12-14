@@ -70,3 +70,8 @@ QVariant AppModel::getPackageSize(QVariant index)
 {
     return m_native.getPackageSize(index);
 }
+
+QVariant AppModel::getCacheSize(QVariant index)
+{
+    return m_native.getCacheSize(index);
+}

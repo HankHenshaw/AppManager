@@ -155,5 +155,25 @@ ListView {
             anchors.left: parent.left
             color: textColor
         }
+
+        Text {
+            id: _cacheSize
+
+            anchors.top: _packSize.bottom
+            anchors.topMargin: 5
+            anchors.left: parent.left
+            color: textColor
+        }
+
+        Rectangle {
+            id: _sepatator3
+
+            anchors.top: _cacheSize.bottom
+            anchors.topMargin: 5
+            anchors.left: parent.left
+            width: parent.width
+            height: 3
+            color: Material.accent
+        }
     }
 }

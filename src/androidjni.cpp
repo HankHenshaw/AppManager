@@ -574,6 +574,82 @@ QVariant AndroidJni::getPackageSize(QVariant index)
     return 0;
 }
 
+QVariant AndroidJni::getCacheSize(QVariant index)
+{
+    int cache = 0;
+    if(index >= 0 && index < m_listOfPackName.size())
+    {
+        QAndroidJniObject context = QtAndroid::androidContext();
+        QAndroidJniObject pm = context.callObjectMethod("getPackageManager", "()Landroid/content/pm/PackageManager;");
+
+        jstring packName = m_env->NewStringUTF(m_listOfPackName.at(index.toInt()).toStdString().c_str());
+        if(!packName) qDebug() << "Can't create new string";
+
+        jclass fileClass = m_env.findClass("java/io/File");
+        if(!fileClass)
+            qDebug() << "Failed to find File class";
+
+        /*Getting App Cache Dir Size*/
+        jclass contextClass = m_env.findClass("android/content/Context");
+        if(!contextClass)
+            qDebug() << "Failed to get Context class";
+
+        jmethodID createPackageContextId = m_env->GetMethodID(contextClass, "createPackageContext", "(Ljava/lang/String;I)Landroid/content/Context;");
+        if(!createPackageContextId)
+            qDebug() << "Failed to get id of createPackageContext method";
+
+        QAndroidJniObject packContext = m_env->CallObjectMethod(context.object(), createPackageContextId, packName, 2);
+        if(!packContext.isValid())
+            qDebug() << "Failed to createPackageContext";
+
+        /*Cache Dir*/
+        jmethodID getCacheDirId = m_env->GetMethodID(contextClass, "getCacheDir", "()Ljava/io/File;");
+        if(!getCacheDirId)
+            qDebug() << "Failed to get id of getCacheDir method";
+
+        QAndroidJniObject cacheFile = m_env->CallObjectMethod(context.object(), getCacheDirId);
+        if(!cacheFile.isValid())
+            qDebug() << "Failed to get cache file";
+
+        qDebug() << "Cache dir:" << cacheFile.toString();
+        /*Cache Dir*/
+        /*External Cache Dir*/
+        jmethodID getExternalCacheDirId = m_env->GetMethodID(contextClass, "getExternalCacheDir", "()Ljava/io/File;");
+        if(!getExternalCacheDirId)
+            qDebug() << "Failed to get id of getExternalCacheDir method";
+
+        QAndroidJniObject externalCacheFile = m_env->CallObjectMethod(context.object(), getExternalCacheDirId);
+        if(!externalCacheFile.isValid())
+            qDebug() << "Failed to get path of externalChacheFile";
+
+        qDebug() << "External Cache dir:" << externalCacheFile.toString();
+        /*External Cache Dir*/
+        /*Getting List of Cache Files*/
+        jmethodID listFilesId = m_env->GetMethodID(fileClass, "listFiles", "()[Ljava/io/File;");
+        if(!listFilesId)
+            qDebug() << "Failed to get id of listFiles method";
+
+        QAndroidJniObject fileArray = m_env->CallObjectMethod(cacheFile.object(), listFilesId);
+        if(!fileArray.isValid())
+            qDebug() << "Failed to get array of cache directory";
+
+        /*Getting List of Cache Files*/
+        /*Getting App Cache Dir Size*/
+        jlong cacheBytes = 0;
+        cacheBytes += sizeOfFiles(fileArray);
+        //TODO!
+        /*Getting App Cache Dir Size*/
+        /*Getting App External Cache Dir Size*/
+        QAndroidJniObject externalFileArray = m_env->CallObjectMethod(externalCacheFile.object(), listFilesId);
+        if(!externalFileArray.isValid())
+            qDebug() << "Failed to get list of external cache files";
+
+        cacheBytes += sizeOfFiles(externalFileArray);
+        cache = cacheBytes/1024;
+    }
+    return cache;
+}
+
 jlong AndroidJni::sizeOfFiles(const QAndroidJniObject &obj)
 {
     jclass fileClass = m_env.findClass("java/io/File"); //TODO: REFACTOR
@@ -620,7 +696,7 @@ jlong AndroidJni::sizeOfFiles(const QAndroidJniObject &obj)
             qDebug() << "Sum:" << sum;
         }
     }
-    return arrSize;
+    return sum;
 }
 
 void AndroidJni::slotRunApp(QVariant index)
@@ -1000,7 +1076,7 @@ void AndroidJni::slotAppInfo(QVariant index)
             qDebug() << "Failed to get list of external cache files";
 
         cacheBytes += sizeOfFiles(externalFileArray);
-        qDebug() << "Size of cache files:" << cacheBytes;
+        qDebug() << "Size of cache files:" << cacheBytes << " | " << cacheBytes/1024;
         /*Getting App External Cache Dir Size*/
 
         //TODO: Cache size
