@@ -689,7 +689,9 @@ QVariant AndroidJni::getRequestedPermissions(QVariant index)
         {
             jsize index = i;
             QAndroidJniObject arrElem = m_env->GetObjectArrayElement(permArray, index);
-            permString += arrElem.toString() + '\n';
+            QString permisString = arrElem.toString();
+            permisString.remove(0, 19);
+            permString += permisString + '\n';
         }
         permString.remove(permString.size()-1, 1);
     }
@@ -766,6 +768,7 @@ void AndroidJni::slotRunApp(QVariant index)
     }
 }
 
+/*Remove Later*/
 void AndroidJni::slotAppInfo(QVariant index)
 {
     qDebug() << "Run app slot";
@@ -1143,3 +1146,4 @@ void AndroidJni::slotAppInfo(QVariant index)
         qDebug() << "Invalid Index";
     }
 }
+/*Remove Later*/

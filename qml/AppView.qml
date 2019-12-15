@@ -89,100 +89,120 @@ ListView {
             }
         }
 
-        Rectangle {
-            id: _sepatator
+        Flickable
+        {
+            id: _flick
+            anchors.fill: parent
+            contentWidth: _popUpAppInfo.width
+            contentHeight: _popUpAppInfo.height * 1.5
 
-            anchors.top: _infoImg.bottom
-            anchors.topMargin: 5
-            anchors.left: parent.left
-            width: parent.width
-            height: 3
-            color: Material.accent
-        }
+            Rectangle {
+                id: _sepatator
 
-        Text {
-            id: _appPackageName
+                anchors.top: _infoImg.bottom
+                anchors.topMargin: 5
+                anchors.left: parent.left
+                width: parent.width
+                height: 3
+                color: Material.accent
+            }
 
-            anchors.top: _sepatator.bottom
-            anchors.topMargin: 5
-            anchors.horizontalCenter: parent.horizontalCenter
-            color: textColor
-        }
+            Text {
+                id: _appPackageName
 
-        Text {
-            id: _appMinSdk
+                anchors.top: _sepatator.bottom
+                anchors.topMargin: 5
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width
+                color: textColor
+            }
 
-            anchors.top: _appPackageName.bottom
-            anchors.topMargin: 5
-            anchors.horizontalCenter: parent.horizontalCenter
-            color: textColor
-        }
+            Text {
+                id: _appMinSdk
 
-        Text {
-            id: _appTargetSdk
+                anchors.top: _appPackageName.bottom
+                anchors.topMargin: 5
+                anchors.horizontalCenter: parent.horizontalCenter
+                color: textColor
+            }
 
-            anchors.top: _appMinSdk.bottom
-            anchors.topMargin: 5
-            anchors.horizontalCenter: parent.horizontalCenter
-            color: textColor
-        }
+            Text {
+                id: _appTargetSdk
 
-        Text { //TODO: Add "Path:" string before real path, fix problem with long string
-            id: _appPath
+                anchors.top: _appMinSdk.bottom
+                anchors.topMargin: 5
+                anchors.horizontalCenter: parent.horizontalCenter
+                color: textColor
+            }
 
-            anchors.top: _appTargetSdk.bottom
-            anchors.topMargin: 5
-            anchors.horizontalCenter: parent.horizontalCenter
-            color: textColor
-        }
+            Text { //TODO: Add "Path:" string before real path, fix problem with long string
+                id: _appPath
 
-        Rectangle {
-            id: _sepatator2
+                anchors.top: _appTargetSdk.bottom
+                anchors.topMargin: 5
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width
+                color: textColor
+            }
 
-            anchors.top: _appPath.bottom
-            anchors.topMargin: 5
-            anchors.left: parent.left
-            width: parent.width
-            height: 3
-            color: Material.accent
-        }
+            Rectangle {
+                id: _sepatator2
 
-        Text {
-            id: _packSize
+                anchors.top: _appPath.bottom
+                anchors.topMargin: 5
+                anchors.left: parent.left
+                width: parent.width
+                height: 3
+                color: Material.accent
+            }
 
-            anchors.top: _sepatator2.bottom
-            anchors.topMargin: 5
-            anchors.left: parent.left
-            color: textColor
-        }
+            Text {
+                id: _packSize
 
-        Text {
-            id: _cacheSize
+                anchors.top: _sepatator2.bottom
+                anchors.topMargin: 5
+                anchors.left: parent.left
+                color: textColor
+            }
 
-            anchors.top: _packSize.bottom
-            anchors.topMargin: 5
-            anchors.left: parent.left
-            color: textColor
-        }
+            Text {
+                id: _cacheSize
 
-        Rectangle {
-            id: _sepatator3
+                anchors.top: _packSize.bottom
+                anchors.topMargin: 5
+                anchors.left: parent.left
+                color: textColor
+            }
 
-            anchors.top: _cacheSize.bottom
-            anchors.topMargin: 5
-            anchors.left: parent.left
-            width: parent.width
-            height: 3
-            color: Material.accent
-        }
+            Rectangle {
+                id: _sepatator3
 
-        Text {
-            id: _requestedPremissions
+                anchors.top: _cacheSize.bottom
+                anchors.topMargin: 5
+                anchors.left: parent.left
+                width: parent.width
+                height: 3
+                color: Material.accent
+            }
+            Text {
+                id: _premissions
 
-            anchors.top: _sepatator3.bottom
-            anchors.topMargin: 5
-            anchors.left: parent.left
-            color: textColor
+                anchors.top: _sepatator3.bottom
+                anchors.topMargin: 5
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: qsTr("Permissions:")
+                font.underline: true
+                color: textColor
+            }
+
+            Text {
+                id: _requestedPremissions
+
+                anchors.top: _premissions.bottom
+                anchors.topMargin: 5
+                anchors.left: parent.left
+                color: textColor
+            }
         }
     }
 }

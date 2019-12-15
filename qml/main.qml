@@ -17,7 +17,7 @@ Window {
     readonly property Dialog dialogDelete: _dialogDeleteApp
     readonly property Popup popupAdvOptions: _popUpAdvOptions
 
-    readonly property var textColor: Material.color(Material.DeepOrange) //TODO: Replace all colors with this, ?place all theme and color in separate file?
+    readonly property var textColor: Material.color(Material.DeepOrange)
     readonly property var elementColor: themeStyle === Material.Dark ? "#424242" : "#FFFFFF"
     readonly property var headerColor: themeStyle === Material.Dark ? "#505050" : "#D7D7D7"
 
@@ -79,41 +79,6 @@ Window {
             }
         }
     }
-
-//    Popup { //TODO: Fill this widget
-//        id: _popUpAppInfo
-
-//        modal: true
-//        focus: true
-//        width: parent.width
-//        height: parent.height
-//        anchors.centerIn: parent
-//        closePolicy: Popup.CloseOnEscape
-
-//        Column {
-//            anchors.fill: parent
-
-//            spacing: 5 //TODO: test value
-//            Text {
-//                id: _appInfoLabel
-
-//                text: qsTr("Application Name")
-//                color: textColor
-//            }
-//            Text {
-//                id: _appInfoPackageName
-
-//                text: qsTr("Application Package Name")
-//                color: textColor
-//            }
-//            Text {
-//                id: _appInfoMore
-
-//                text: qsTr("Application Some Info")
-//                color: textColor
-//            }
-//        }
-//    }
 
     Dialog {
         id: _dialogRemoveApp
