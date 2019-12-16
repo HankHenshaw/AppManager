@@ -80,3 +80,8 @@ QVariant AppModel::getRequestedPermissions(QVariant index)
 {
     return m_native.getRequestedPermissions(index);
 }
+
+QVariant AppModel::getPermissionsNumber()
+{
+    return m_native.getPermissionsNumber();
+}

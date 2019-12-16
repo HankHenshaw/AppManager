@@ -684,6 +684,8 @@ QVariant AndroidJni::getRequestedPermissions(QVariant index)
         jint permissionArrSize = m_env->GetArrayLength(static_cast<jobjectArray>(requestedPermission.object()));
         qDebug() << "Number of permissions:" << permissionArrSize;
 
+        m_numberOfPermissions = permissionArrSize;
+
         jobjectArray permArray = static_cast<jobjectArray>(requestedPermission.object());
         for(int i = 0; i < permissionArrSize; ++i)
         {
@@ -696,6 +698,11 @@ QVariant AndroidJni::getRequestedPermissions(QVariant index)
         permString.remove(permString.size()-1, 1);
     }
     return permString;
+}
+
+QVariant AndroidJni::getPermissionsNumber()
+{
+    return m_numberOfPermissions;
 }
 
 jlong AndroidJni::sizeOfFiles(const QAndroidJniObject &obj)

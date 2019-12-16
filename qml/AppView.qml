@@ -45,56 +45,59 @@ ListView {
         modal: true
         focus: true
         width: parent.width
-        height: parent.height
+        height: parent.height*2 // 100 - height of header
         anchors.centerIn: parent
         closePolicy: Popup.CloseOnEscape
-
-        Image { //TODO: Opacity Mask, Remove magic numbers
-            id: _infoImg
-
-            anchors.left: parent.left
-            anchors.leftMargin: 10
-            anchors.top: parent.top
-            anchors.topMargin: 10
-
-            Text {
-                id: _appName
-
-                anchors.top: _popUpAppInfo.top
-                anchors.left: parent.right
-                anchors.leftMargin: 10
-                font.bold: true
-                color: textColor
-            }
-
-            Text {
-                id: _appVersion
-
-                anchors.top: _appName.bottom
-                anchors.topMargin: 5
-                anchors.left: parent.right
-                anchors.leftMargin: 10
-                color: textColor
-                text: qsTr("Version: " + "14.95.13.21")
-            }
-
-            Text {
-                id: _appCategory
-
-                anchors.top: _appVersion.bottom
-                anchors.topMargin: 5
-                anchors.left: parent.right
-                anchors.leftMargin: 10
-                color: textColor
-            }
-        }
 
         Flickable
         {
             id: _flick
             anchors.fill: parent
             contentWidth: _popUpAppInfo.width
-            contentHeight: _popUpAppInfo.height * 1.5
+            contentHeight: _popUpAppInfo.height
+            flickableDirection: Flickable.VerticalFlick
+            boundsBehavior: Flickable.StopAtBounds
+
+            Image { //TODO: Opacity Mask, Remove magic numbers
+                id: _infoImg
+
+                anchors.left: parent.left
+                anchors.leftMargin: 10
+                anchors.top: parent.top
+                anchors.topMargin: 10
+
+                Text {
+                    id: _appName
+
+                    anchors.top: _popUpAppInfo.top
+                    anchors.left: parent.right
+                    anchors.leftMargin: 10
+                    font.bold: true
+                    color: textColor
+                }
+
+                Text {
+                    id: _appVersion
+
+                    anchors.top: _appName.bottom
+                    anchors.topMargin: 5
+                    anchors.left: parent.right
+                    anchors.leftMargin: 10
+                    color: textColor
+                    text: qsTr("Version: " + "14.95.13.21")
+                }
+
+                Text {
+                    id: _appCategory
+
+                    anchors.top: _appVersion.bottom
+                    anchors.topMargin: 5
+                    anchors.left: parent.right
+                    anchors.leftMargin: 10
+                    color: textColor
+                }
+            }
+
 
             Rectangle {
                 id: _sepatator
@@ -192,6 +195,7 @@ ListView {
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: qsTr("Permissions:")
                 font.underline: true
+                font.bold: true
                 color: textColor
             }
 

@@ -42,12 +42,14 @@ public:
     QVariant getPackageSize(QVariant index);
     QVariant getCacheSize(QVariant index);
     QVariant getRequestedPermissions(QVariant index);
+    QVariant getPermissionsNumber();
 private:
     QList<QString> m_listOfPackName;
     QList<QImage> m_listOfPackIcon;
     QList<QString> m_listOfPackLabel;
     QList<QString> m_listOfSysApps; // TODO
     QImage m_icon;
+    int m_numberOfPermissions;
     //JNI Objects
     QAndroidJniEnvironment m_env;
     QAndroidJniObject m_activity;

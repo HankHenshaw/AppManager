@@ -70,8 +70,9 @@ Rectangle {
             _packSize.text = "Package Size: ~" + AppModel.sourceModel.getPackageSize(modelIndex) + " MB"
             _cacheSize.text = "Cache Size: ~" + AppModel.sourceModel.getCacheSize(modelIndex) + " KB"
             _requestedPremissions.text = AppModel.sourceModel.getRequestedPermissions(modelIndex)
+            if(AppModel.sourceModel.getPermissionsNumber() > 7) //Если список разрешений не помещается на экране
+                _flick.contentHeight = _popUpAppInfo.height + 15 * AppModel.sourceModel.getPermissionsNumber()
             _contextMenu.popup()
-            console.log("Context Menu")
         }
 
         Menu {

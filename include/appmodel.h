@@ -24,6 +24,7 @@ public:
     Q_INVOKABLE QVariant getPackageSize(QVariant index);
     Q_INVOKABLE QVariant getCacheSize(QVariant index);
     Q_INVOKABLE QVariant getRequestedPermissions(QVariant index);
+    Q_INVOKABLE QVariant getPermissionsNumber();
 private:
     ImageProvider *m_imgProvider;
     AndroidJni m_native;
