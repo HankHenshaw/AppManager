@@ -61,7 +61,7 @@ Rectangle {
         onClicked: {
             _infoImg.source = "image://prov/" + modelIndex
             _appName.text = appLabel
-            _appPackageName.text = "Package: " + AppModel.sourceModel.getPackageName(modelIndex)
+            _appPackageName.text = AppModel.sourceModel.getPackageName(modelIndex)
             _appPath.text = AppModel.sourceModel.getPackagePath(modelIndex)
             _appMinSdk.text = "Minimum Sdk Version: " + AppModel.sourceModel.getMinSdk(modelIndex)
             _appTargetSdk.text = "Target Sdk Version: " + AppModel.sourceModel.getTargetSdk(modelIndex)
@@ -70,8 +70,10 @@ Rectangle {
             _packSize.text = "Package Size: ~" + AppModel.sourceModel.getPackageSize(modelIndex) + " MB"
             _cacheSize.text = "Cache Size: ~" + AppModel.sourceModel.getCacheSize(modelIndex) + " KB"
             _requestedPremissions.text = AppModel.sourceModel.getRequestedPermissions(modelIndex)
-            if(AppModel.sourceModel.getPermissionsNumber() > 7) //Если список разрешений не помещается на экране
-                _flick.contentHeight = _popUpAppInfo.height + 15 * AppModel.sourceModel.getPermissionsNumber()
+            if(AppModel.sourceModel.getPermissionsNumber() > 5) //Если список разрешений не помещается на экране
+                _flick.contentHeight = _popUpAppInfo.height + 16 * AppModel.sourceModel.getPermissionsNumber()
+            else
+                _flick.contentHeight = _popUpAppInfo.height
             _contextMenu.popup()
         }
 

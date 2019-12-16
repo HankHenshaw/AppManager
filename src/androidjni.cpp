@@ -692,7 +692,14 @@ QVariant AndroidJni::getRequestedPermissions(QVariant index)
             jsize index = i;
             QAndroidJniObject arrElem = m_env->GetObjectArrayElement(permArray, index);
             QString permisString = arrElem.toString();
-            permisString.remove(0, 19);
+            int counter = 0;
+            int chars = 0;
+            for(int j = 0; j < permisString.size(); ++j)
+            {
+                ++counter;
+                if(permisString.at(j) == '.') chars = counter;
+            }
+            if(chars) permisString.remove(0, chars);
             permString += permisString + '\n';
         }
         permString.remove(permString.size()-1, 1);

@@ -111,21 +111,57 @@ ListView {
             }
 
             Text {
-                id: _appPackageName
+                id: _packageName
 
                 anchors.top: _sepatator.bottom
                 anchors.topMargin: 5
+                anchors.left: parent.left
+                color: textColor
+                text: qsTr("Package Name:")
+                font.bold: true
+                font.underline: true
+            }
+
+            Text {
+                id: _appPackageName
+
+                anchors.top: _packageName.bottom
+                anchors.topMargin: 5
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: parent.width
+                fontSizeMode: Text.VerticalFit
+                color: textColor
+            }
+
+            Text {
+                id: _path
+
+                anchors.top: _appPackageName.bottom
+                anchors.topMargin: 5
+                anchors.left: parent.left
+                color: textColor
+                font.bold: true
+                font.underline: true
+                text: qsTr("Path:")
+            }
+
+            Text {
+                id: _appPath
+
+                anchors.top: _path.bottom
+                anchors.topMargin: 5
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width
+                fontSizeMode: Text.HorizontalFit
                 color: textColor
             }
 
             Text {
                 id: _appMinSdk
 
-                anchors.top: _appPackageName.bottom
+                anchors.top: _appPath.bottom
                 anchors.topMargin: 5
-                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.left: parent.left
                 color: textColor
             }
 
@@ -134,24 +170,14 @@ ListView {
 
                 anchors.top: _appMinSdk.bottom
                 anchors.topMargin: 5
-                anchors.horizontalCenter: parent.horizontalCenter
-                color: textColor
-            }
-
-            Text { //TODO: Add "Path:" string before real path, fix problem with long string
-                id: _appPath
-
-                anchors.top: _appTargetSdk.bottom
-                anchors.topMargin: 5
-                anchors.horizontalCenter: parent.horizontalCenter
-                width: parent.width
+                anchors.left: parent.left
                 color: textColor
             }
 
             Rectangle {
                 id: _sepatator2
 
-                anchors.top: _appPath.bottom
+                anchors.top: _appTargetSdk.bottom
                 anchors.topMargin: 5
                 anchors.left: parent.left
                 width: parent.width
@@ -192,7 +218,7 @@ ListView {
 
                 anchors.top: _sepatator3.bottom
                 anchors.topMargin: 5
-                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.left: parent.left
                 text: qsTr("Permissions:")
                 font.underline: true
                 font.bold: true
