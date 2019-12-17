@@ -70,10 +70,12 @@ Rectangle {
             _packSize.text = "Package Size: ~" + AppModel.sourceModel.getPackageSize(modelIndex) + " MB"
             _cacheSize.text = "Cache Size: ~" + AppModel.sourceModel.getCacheSize(modelIndex) + " KB"
             _requestedPremissions.text = AppModel.sourceModel.getRequestedPermissions(modelIndex)
-            if(AppModel.sourceModel.getPermissionsNumber() > 5) //Если список разрешений не помещается на экране
-                _flick.contentHeight = _popUpAppInfo.height + 16 * AppModel.sourceModel.getPermissionsNumber()
+            _flick.contentHeight = _popUpAppInfo.height + 16 * AppModel.sourceModel.getPermissionsNumber()
+            _firstInstallationTime.text = "First Installation Time: " + AppModel.sourceModel.getFirstInstallationTime(modelIndex)
+            if(AppModel.sourceModel.getFirstInstallationTime(modelIndex) === AppModel.sourceModel.getLastUpdateTime(modelIndex))
+                _lastUpdatedTime.text = "Last Updated Time: Never been updated"
             else
-                _flick.contentHeight = _popUpAppInfo.height
+                _lastUpdatedTime.text = "Last Updated Time: " + AppModel.sourceModel.getLastUpdateTime(modelIndex)
             _contextMenu.popup()
         }
 

@@ -85,3 +85,13 @@ QVariant AppModel::getPermissionsNumber()
 {
     return m_native.getPermissionsNumber();
 }
+
+QVariant AppModel::getFirstInstallationTime(QVariant index)
+{
+    return m_native.getFirstInstallationTime(index);
+}
+
+QVariant AppModel::getLastUpdateTime(QVariant index)
+{
+    return m_native.getLastUpdateTime(index);
+}

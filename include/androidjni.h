@@ -42,6 +42,8 @@ public:
     QVariant getPackageSize(QVariant index);
     QVariant getCacheSize(QVariant index);
     QVariant getRequestedPermissions(QVariant index);
+    QVariant getFirstInstallationTime(QVariant index);
+    QVariant getLastUpdateTime(QVariant index);
     QVariant getPermissionsNumber();
 private:
     QList<QString> m_listOfPackName;

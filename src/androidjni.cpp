@@ -707,6 +707,156 @@ QVariant AndroidJni::getRequestedPermissions(QVariant index)
     return permString;
 }
 
+QVariant AndroidJni::getFirstInstallationTime(QVariant index)
+{
+    QString firstInstallationTime;
+    if(index >= 0 && index < m_listOfPackName.size())
+    {
+        QAndroidJniObject context = QtAndroid::androidContext();
+        QAndroidJniObject pm = context.callObjectMethod("getPackageManager", "()Landroid/content/pm/PackageManager;");
+
+        jstring packName = m_env->NewStringUTF(m_listOfPackName.at(index.toInt()).toStdString().c_str());
+        if(!packName) qDebug() << "Can't create new string";
+
+        jclass pmClass = m_env.findClass("android/content/pm/PackageManager");
+
+        jmethodID getPackageInfoId = m_env->GetMethodID(pmClass, "getPackageInfo", "(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;");
+        if(!getPackageInfoId)
+            qDebug() << "Can't get getPackageInfoId method";
+
+        QAndroidJniObject packageInfo = m_env->CallObjectMethod(pm.object(), getPackageInfoId, packName, 0);
+        if(!packageInfo.isValid())
+            qDebug() << "Package Info is invalid";
+
+        jclass packageInfoClass = m_env.findClass("android/content/pm/PackageInfo");
+
+        jfieldID firstInstTimeId = m_env->GetFieldID(packageInfoClass, "firstInstallTime", "J");
+        if(!firstInstTimeId)
+            qDebug() << "Failed to get id of firstInstallationTime field";
+
+        jlong firstInstallTime = m_env->GetLongField(packageInfo.object(), firstInstTimeId);
+        qDebug() << "firstInstTime:" << firstInstallTime;
+
+        jclass dateClass = m_env.findClass("java/util/Date");
+        if(!dateClass)
+            qDebug() << "Can't find date class";
+
+        jclass simpleDateFormatClass = m_env.findClass("java/text/SimpleDateFormat");
+        if(!simpleDateFormatClass)
+            qDebug() << "Can't find simpleDateFormat class";
+
+        jclass formatClass = m_env.findClass("java/text/Format");
+        if(!formatClass)
+            qDebug() << "Can't find format class";
+
+        jmethodID dateInitId = m_env->GetMethodID(dateClass, "<init>", "(J)V");
+        if(!dateInitId)
+            qDebug() << "Failed to get id of date constructor";
+
+        jmethodID simpleFormatInitId = m_env->GetMethodID(simpleDateFormatClass, "<init>", "(Ljava/lang/String;)V");
+        if(!simpleFormatInitId)
+            qDebug() << "Failed to get id of simpleFormat constructor";
+
+        jobject installDate = m_env->NewObject(dateClass, dateInitId, firstInstallTime);
+        if(!installDate)
+            qDebug() << "Failed to create new date file";
+
+        jstring dateFormatStr = m_env->NewStringUTF("yyyy-MM-dd HH:mm:ss");
+        if(!dateFormatStr)
+            qDebug() << "Failed to create new string";
+
+        jobject timeFormat = m_env->NewObject(simpleDateFormatClass, simpleFormatInitId, dateFormatStr);
+        if(!timeFormat)
+            qDebug() << "Failed to create new format object";
+
+        jmethodID formatId = m_env->GetMethodID(formatClass, "format", "(Ljava/lang/Object;)Ljava/lang/String;");
+        if(!formatId)
+            qDebug() << "Failed to get id of format method id";
+
+        QAndroidJniObject firstInstallDateStr = m_env->CallObjectMethod(timeFormat, formatId, installDate);
+        if(!firstInstallDateStr.isValid())
+            qDebug() << "Install Date string isn't valid";
+        else
+            firstInstallationTime = firstInstallDateStr.toString();
+    }
+    return firstInstallationTime;
+}
+
+QVariant AndroidJni::getLastUpdateTime(QVariant index)
+{
+    QString lastUpdateTimeStr;
+    if(index >= 0 && index < m_listOfPackName.size())
+    {
+        QAndroidJniObject context = QtAndroid::androidContext();
+        QAndroidJniObject pm = context.callObjectMethod("getPackageManager", "()Landroid/content/pm/PackageManager;");
+
+        jstring packName = m_env->NewStringUTF(m_listOfPackName.at(index.toInt()).toStdString().c_str());
+        if(!packName) qDebug() << "Can't create new string";
+
+        jclass pmClass = m_env.findClass("android/content/pm/PackageManager");
+
+        jmethodID getPackageInfoId = m_env->GetMethodID(pmClass, "getPackageInfo", "(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;");
+        if(!getPackageInfoId)
+            qDebug() << "Can't get getPackageInfoId method";
+
+        QAndroidJniObject packageInfo = m_env->CallObjectMethod(pm.object(), getPackageInfoId, packName, 0);
+        if(!packageInfo.isValid())
+            qDebug() << "Package Info is invalid";
+
+        jclass packageInfoClass = m_env.findClass("android/content/pm/PackageInfo");
+
+        jfieldID lastUpdateTimeId = m_env->GetFieldID(packageInfoClass, "lastUpdateTime", "J");
+        if(!lastUpdateTimeId)
+            qDebug() << "Failed to get id of lastUpdateTime field";
+
+        jlong lastUpdateTime = m_env->GetLongField(packageInfo.object(), lastUpdateTimeId);
+        qDebug() << "lastUpdTime:" << lastUpdateTime;
+
+        jclass dateClass = m_env.findClass("java/util/Date");
+        if(!dateClass)
+            qDebug() << "Can't find date class";
+
+        jclass simpleDateFormatClass = m_env.findClass("java/text/SimpleDateFormat");
+        if(!simpleDateFormatClass)
+            qDebug() << "Can't find simpleDateFormat class";
+
+        jclass formatClass = m_env.findClass("java/text/Format");
+        if(!formatClass)
+            qDebug() << "Can't find format class";
+
+        jmethodID dateInitId = m_env->GetMethodID(dateClass, "<init>", "(J)V");
+        if(!dateInitId)
+            qDebug() << "Failed to get id of date constructor";
+
+        jmethodID simpleFormatInitId = m_env->GetMethodID(simpleDateFormatClass, "<init>", "(Ljava/lang/String;)V");
+        if(!simpleFormatInitId)
+            qDebug() << "Failed to get id of simpleFormat constructor";
+
+        jobject lastUpdateDate = m_env->NewObject(dateClass, dateInitId, lastUpdateTime);
+        if(!lastUpdateDate)
+            qDebug() << "Failed to create new date file";
+
+        jstring dateFormatStr = m_env->NewStringUTF("yyyy-MM-dd HH:mm:ss");
+        if(!dateFormatStr)
+            qDebug() << "Failed to create new string";
+
+        jobject timeFormat = m_env->NewObject(simpleDateFormatClass, simpleFormatInitId, dateFormatStr);
+        if(!timeFormat)
+            qDebug() << "Failed to create new format object";
+
+        jmethodID formatId = m_env->GetMethodID(formatClass, "format", "(Ljava/lang/Object;)Ljava/lang/String;");
+        if(!formatId)
+            qDebug() << "Failed to get id of format method id";
+
+        QAndroidJniObject lastUpdateDateStr = m_env->CallObjectMethod(timeFormat, formatId, lastUpdateDate);
+        if(!lastUpdateDateStr.isValid())
+            qDebug() << "Install Date string isn't valid";
+        else
+            lastUpdateTimeStr = lastUpdateDateStr.toString();
+    }
+    return lastUpdateTimeStr;
+}
+
 QVariant AndroidJni::getPermissionsNumber()
 {
     return m_numberOfPermissions;
@@ -1141,7 +1291,6 @@ void AndroidJni::slotAppInfo(QVariant index)
         /*Getting App Cache Dir Size*/
         jlong cacheBytes = 0;
         cacheBytes += sizeOfFiles(fileArray);
-        //TODO!
         /*Getting App Cache Dir Size*/
         /*Getting App External Cache Dir Size*/
         QAndroidJniObject externalFileArray = m_env->CallObjectMethod(externalCacheFile.object(), listFilesId);
@@ -1151,11 +1300,75 @@ void AndroidJni::slotAppInfo(QVariant index)
         cacheBytes += sizeOfFiles(externalFileArray);
         qDebug() << "Size of cache files:" << cacheBytes << " | " << cacheBytes/1024;
         /*Getting App External Cache Dir Size*/
-
-        //TODO: Cache size
-        /* For Api >= 26 */
-
         /* Getting package size */
+        /* Getting Instalation/LastUpdate Time */
+        jfieldID firstInstTimeId = m_env->GetFieldID(packageInfoClass, "firstInstallTime", "J");
+        if(!firstInstTimeId)
+            qDebug() << "Failed to get id of firstInstallationTime field";
+
+        jfieldID lastUpdateTimeId = m_env->GetFieldID(packageInfoClass, "lastUpdateTime", "J");
+        if(!lastUpdateTimeId)
+            qDebug() << "Failed to get id of lastUpdateTime field";
+
+        jlong firstInstallTime = m_env->GetLongField(packageInfo.object(), firstInstTimeId);
+        qDebug() << "firstInstTime:" << firstInstallTime;
+
+        jlong lastUpdateTime = m_env->GetLongField(packageInfo.object(), lastUpdateTimeId);
+        qDebug() << "lastUpdTime:" << lastUpdateTime;
+
+        jclass dateClass = m_env.findClass("java/util/Date");
+        if(!dateClass)
+            qDebug() << "Can't find date class";
+
+        jclass simpleDateFormatClass = m_env.findClass("java/text/SimpleDateFormat");
+        if(!simpleDateFormatClass)
+            qDebug() << "Can't find simpleDateFormat class";
+
+        jclass formatClass = m_env.findClass("java/text/Format");
+        if(!formatClass)
+            qDebug() << "Can't find format class";
+
+        jmethodID dateInitId = m_env->GetMethodID(dateClass, "<init>", "(J)V");
+        if(!dateInitId)
+            qDebug() << "Failed to get id of date constructor";
+
+        jmethodID simpleFormatInitId = m_env->GetMethodID(simpleDateFormatClass, "<init>", "(Ljava/lang/String;)V");
+        if(!simpleFormatInitId)
+            qDebug() << "Failed to get id of simpleFormat constructor";
+
+        jobject installDate = m_env->NewObject(dateClass, dateInitId, firstInstallTime);
+        if(!installDate)
+            qDebug() << "Failed to create new date file";
+
+        jobject lastUpdateDate = m_env->NewObject(dateClass, dateInitId, lastUpdateTime);
+        if(!lastUpdateDate)
+            qDebug() << "Failed to create new date file";
+
+        jstring dateFormatStr = m_env->NewStringUTF("yyyy MM dd HH:mm:ss");
+        if(!dateFormatStr)
+            qDebug() << "Failed to create new string";
+
+        jobject timeFormat = m_env->NewObject(simpleDateFormatClass, simpleFormatInitId, dateFormatStr);
+        if(!timeFormat)
+            qDebug() << "Failed to create new format object";
+
+        jmethodID formatId = m_env->GetMethodID(formatClass, "format", "(Ljava/lang/Object;)Ljava/lang/String;");
+        if(!formatId)
+            qDebug() << "Failed to get id of format method id";
+
+        QAndroidJniObject firstInstallDateStr = m_env->CallObjectMethod(timeFormat, formatId, installDate);
+        if(!firstInstallDateStr.isValid())
+            qDebug() << "Install Date string isn't valid";
+        else
+            qDebug() << "Install Date Time:" << firstInstallDateStr.toString();
+
+        QAndroidJniObject lastUpdateDateStr = m_env->CallObjectMethod(timeFormat, formatId, lastUpdateDate);
+        if(!lastUpdateDateStr.isValid())
+            qDebug() << "Install Date string isn't valid";
+        else
+            qDebug() << "Install Date Time:" << lastUpdateDateStr.toString();
+
+        /* Getting Instalation Time */
     } else {
         qDebug() << "Invalid Index";
     }

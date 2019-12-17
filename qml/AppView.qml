@@ -213,10 +213,39 @@ ListView {
                 height: 3
                 color: Material.accent
             }
+
+            Text {
+                id: _firstInstallationTime
+
+                anchors.top: _sepatator3.bottom
+                anchors.topMargin: 5
+                anchors.left: parent.left
+                color: textColor
+            }
+
+            Text {
+                id: _lastUpdatedTime
+
+                anchors.top: _firstInstallationTime.bottom
+                anchors.topMargin: 5
+                anchors.left: parent.left
+                color: textColor
+            }
+
+            Rectangle {
+                id: _sepatator4
+
+                anchors.top: _lastUpdatedTime.bottom
+                anchors.topMargin: 5
+                anchors.left: parent.left
+                width: parent.width
+                height: 3
+                color: Material.accent
+            }
             Text {
                 id: _premissions
 
-                anchors.top: _sepatator3.bottom
+                anchors.top: _sepatator4.bottom
                 anchors.topMargin: 5
                 anchors.left: parent.left
                 text: qsTr("Permissions:")
