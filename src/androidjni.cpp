@@ -1367,7 +1367,36 @@ void AndroidJni::slotAppInfo(QVariant index)
             qDebug() << "Install Date string isn't valid";
         else
             qDebug() << "Install Date Time:" << lastUpdateDateStr.toString();
+        /* Width */
+        jfieldID compatibleWidthLimitDpId = m_env->GetFieldID(appInfoClass, "compatibleWidthLimitDp", "I");
+        if(!compatibleWidthLimitDpId)
+            qDebug() << "Can't find id of compatibleWidthLimitDp field";
 
+        jfieldID largestWidthLimitDpId = m_env->GetFieldID(appInfoClass, "largestWidthLimitDp", "I");
+        if(!largestWidthLimitDpId)
+            qDebug() << "Can't find id of largestWidthLimitDp field";
+
+        jfieldID requiresSmallestWidthDpId = m_env->GetFieldID(appInfoClass, "requiresSmallestWidthDp", "I");
+        if(!requiresSmallestWidthDpId)
+            qDebug() << "Can't find id of requiresSmallestWidthDp field";
+
+        jint compatibleWidthLimitDp = m_env->GetIntField(appInfo.object(), compatibleWidthLimitDpId);
+        qDebug() << "Maximum smallest screen width the application is designed for:" << compatibleWidthLimitDp;
+
+        jint largestWidthLimitDp = m_env->GetIntField(appInfo.object(), largestWidthLimitDpId);
+        qDebug() << "Maximum smallest screen width the application will work on:" << largestWidthLimitDp;
+
+        jint requiresSmallestWidthDp = m_env->GetIntField(appInfo.object(), requiresSmallestWidthDpId);
+        qDebug() << "Required smallest screen width the application can run on:" << requiresSmallestWidthDp;
+        /* Width */
+        /* taskAffinity */
+        jfieldID taskAffinityId = m_env->GetFieldID(appInfoClass, "taskAffinity", "Ljava/lang/String;");
+        if(!taskAffinityId)
+            qDebug() << "Can't find id of taskAffinity field";
+
+        QAndroidJniObject taskAffinity = m_env->GetObjectField(appInfo.object(), taskAffinityId);
+        qDebug() << "Task Affinity:" << taskAffinity.toString();
+        /* taskAffinity */
         /* Getting Instalation Time */
     } else {
         qDebug() << "Invalid Index";
