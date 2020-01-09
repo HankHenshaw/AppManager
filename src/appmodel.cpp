@@ -95,3 +95,8 @@ QVariant AppModel::getLastUpdateTime(QVariant index)
 {
     return m_native.getLastUpdateTime(index);
 }
+
+void AppModel::deleteApp(QVariant index)
+{
+    m_native.deleteApp(index);
+}

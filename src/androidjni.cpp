@@ -857,6 +857,65 @@ QVariant AndroidJni::getLastUpdateTime(QVariant index)
     return lastUpdateTimeStr;
 }
 
+void AndroidJni::deleteApp(QVariant index)
+{
+    if(index >= 0 && index < m_listOfPackName.size())
+    {
+        QAndroidJniObject context = QtAndroid::androidContext();
+        QAndroidJniObject pm = context.callObjectMethod("getPackageManager", "()Landroid/content/pm/PackageManager;");
+
+        QString appQName = m_listOfPackName.at(index.toInt());
+
+        QString packName = "package:" + appQName;
+
+        jstring appName = m_env->NewStringUTF(packName.toStdString().c_str());
+
+        jclass intentClass = m_env.findClass("android/content/Intent");
+        if(!intentClass)
+            qDebug() << "Can't find Intent class";
+
+        jmethodID intentConstrId = m_env->GetMethodID(intentClass, "<init>", "(Ljava/lang/String;Landroid/net/Uri;)V");
+        if(!intentConstrId)
+            qDebug() << "Can't get id of intent constructor";
+
+        jstring deleteIntentStr = m_env->NewStringUTF("Intent.ACTION_DELETE");
+
+        jmethodID setDataId = m_env->GetMethodID(intentClass, "setData", "(Landroid/net/Uri;)Landroid/content/Intent;");
+        if(!setDataId)
+            qDebug() << "Can't get id of setData method";
+
+        jclass uriClass = m_env.findClass("android/net/Uri");
+        if(!uriClass)
+            qDebug() << "Can't find Uri class";
+
+        jmethodID uriParseId = m_env->GetStaticMethodID(uriClass, "parse", "(Ljava/lang/String;)Landroid/net/Uri;");
+        if(!uriParseId)
+            qDebug() << "Can't get id of parse method";
+
+        QAndroidJniObject uriParse = m_env->CallStaticObjectMethod(uriClass, uriParseId, appName);
+        if(!uriParse.isValid())
+            qDebug() << "uri Parse isn't valid";
+
+        QAndroidJniObject intent = m_env->NewObject(intentClass, intentConstrId, deleteIntentStr, uriParse.object());
+        if(!intent.isValid())
+            qDebug() << "Failed to create intent object";
+//        QAndroidJniObject intentSet = m_env->CallObjectMethod(intent.object(), setDataId, uriParse.object());
+//        if(!intentSet.isValid())
+//            qDebug() << "intent set went wrong";
+
+//        jmethodID addFlagId = m_env->GetMethodID(intentClass, "addFlag", "(I)Landroid/content/Intent;");
+//        if(!addFlagId)
+//            qDebug() << "Can't get id of addFlag method";
+        intent.callObjectMethod("addFlags", "(I)Landroid/content/Intent;", 268435456);
+
+        jclass activityClass = m_env.findClass("android/app/Activity");
+        jmethodID startActivityId = m_env->GetMethodID(activityClass, "startActivity", "(Landroid/content/Intent;)V");
+
+        m_env->CallVoidMethod(context.object(), startActivityId, intent.object());
+
+    }
+}
+
 QVariant AndroidJni::getPermissionsNumber()
 {
     return m_numberOfPermissions;
