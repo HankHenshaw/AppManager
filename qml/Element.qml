@@ -115,7 +115,8 @@ Rectangle {
                 text: "Delete App"
                 onTriggered: {
                     //dialogDelete.open()
-                    AppModel.sourceModel.deleteApp(modelIndex)
+                    //AppModel.sourceModel.deleteApp(modelIndex)
+                    AppModel.sourceModel.clearCache(modelIndex) //TODO: Remove
                 }
             }
         }

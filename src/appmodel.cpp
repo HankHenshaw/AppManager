@@ -100,3 +100,8 @@ void AppModel::deleteApp(QVariant index)
 {
     m_native.deleteApp(index);
 }
+
+void AppModel::clearCache(QVariant index)
+{
+    m_native.clearCache(index);
+}

@@ -575,7 +575,7 @@ QVariant AndroidJni::getPackageSize(QVariant index)
     return 0;
 }
 
-QVariant AndroidJni::getCacheSize(QVariant index)
+QVariant AndroidJni::getCacheSize(QVariant index) // TODO: Директори кэша определяется не правильно, берется папка для текущего приложения
 {
     int cache = 0;
     if(index >= 0 && index < m_listOfPackName.size())
@@ -918,6 +918,46 @@ void AndroidJni::deleteApp(QVariant index)
                 qDebug() << "Deletion failed";
             }
         }
+    }
+}
+
+void AndroidJni::clearCache(QVariant index) // TODO: Директори кэша определяется не правильно, берется папка для текущего приложения
+{
+    if(index >= 0 && index < m_listOfPackName.size())
+    {
+        QAndroidJniObject context = QtAndroid::androidContext();
+        QAndroidJniObject pm = context.callObjectMethod("getPackageManager", "()Landroid/content/pm/PackageManager;");
+
+        jstring packName = m_env->NewStringUTF(m_listOfPackName.at(index.toInt()).toStdString().c_str());
+        if(!packName) qDebug() << "Can't create new string";
+
+        jclass fileClass = m_env.findClass("java/io/File");
+        if(!fileClass)
+            qDebug() << "Failed to find File class";
+
+        /*Getting App Cache Dir Size*/
+        jclass contextClass = m_env.findClass("android/content/Context");
+        if(!contextClass)
+            qDebug() << "Failed to get Context class";
+
+        jmethodID createPackageContextId = m_env->GetMethodID(contextClass, "createPackageContext", "(Ljava/lang/String;I)Landroid/content/Context;");
+        if(!createPackageContextId)
+            qDebug() << "Failed to get id of createPackageContext method";
+
+        QAndroidJniObject packContext = m_env->CallObjectMethod(context.object(), createPackageContextId, packName, 2);
+        if(!packContext.isValid())
+            qDebug() << "Failed to createPackageContext";
+
+        /*Cache Dir*/
+        jmethodID getCacheDirId = m_env->GetMethodID(contextClass, "getCacheDir", "()Ljava/io/File;");
+        if(!getCacheDirId)
+            qDebug() << "Failed to get id of getCacheDir method";
+
+        QAndroidJniObject cacheFile = m_env->CallObjectMethod(context.object(), getCacheDirId);
+        if(!cacheFile.isValid())
+            qDebug() << "Failed to get cache file";
+
+        qDebug() << "Cache dir:" << cacheFile.toString();
     }
 }
 

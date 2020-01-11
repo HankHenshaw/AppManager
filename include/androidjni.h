@@ -45,6 +45,7 @@ public:
     QVariant getFirstInstallationTime(QVariant index);
     QVariant getLastUpdateTime(QVariant index);
     void deleteApp(QVariant index);
+    void clearCache(QVariant index);
     QVariant getPermissionsNumber();
 private:
     QList<QString> m_listOfPackName;
