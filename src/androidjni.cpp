@@ -958,6 +958,20 @@ void AndroidJni::clearCache(QVariant index) // TODO: Директори кэша
             qDebug() << "Failed to get cache file";
 
         qDebug() << "Cache dir:" << cacheFile.toString();
+
+        jmethodID listFilesId = m_env->GetMethodID(fileClass, "listFiles", "()[Ljava/io/File;");
+        if(!listFilesId)
+            qDebug() << "Failed to get id of listFiles method";
+
+        QAndroidJniObject fileArray = m_env->CallObjectMethod(cacheFile.object(), listFilesId);
+        if(!fileArray.isValid())
+            qDebug() << "Failed to get array of cache directory";
+
+        jboolean res = deleteDir(fileArray);
+        if(res)
+            qDebug() << "Cache is cleared";
+        else
+            qDebug() << "Smth went wrong";
     }
 }
 
@@ -1012,6 +1026,59 @@ jlong AndroidJni::sizeOfFiles(const QAndroidJniObject &obj)
         }
     }
     return sum;
+}
+
+jboolean AndroidJni::deleteDir(QAndroidJniObject &dir)
+{
+    jclass fileClass = m_env.findClass("java/io/File"); //TODO: REFACTOR
+    if(!fileClass)
+        qDebug() << "Can't find File class";
+
+    jmethodID isDirectoryId = m_env->GetMethodID(fileClass, "isDirectory", "()Z");
+    if(!isDirectoryId)
+        qDebug() << "Failed to get id of isDirectory method";
+
+    jmethodID isFileId = m_env->GetMethodID(fileClass, "isFile", "()Z");
+    if(!isFileId)
+        qDebug() << "Failed to get id of isFile method";
+
+    jmethodID lengthId = m_env->GetMethodID(fileClass, "length", "()J");
+    if(!lengthId)
+        qDebug() << "Failed to get id of length method";
+
+    jmethodID listFilesId = m_env->GetMethodID(fileClass, "listFiles", "()[Ljava/io/File;");
+    if(!listFilesId)
+        qDebug() << "Failed to get id of listFiles method";
+
+    jmethodID deleteId = m_env->GetMethodID(fileClass, "delete", "()Z");
+    if(!deleteId)
+        qDebug() << "Failed to get id of delete method";
+
+    jint arrSize = m_env->GetArrayLength(static_cast<jobjectArray>(dir.object()));
+    jobjectArray fileArray = static_cast<jobjectArray>(dir.object());
+    qDebug() << "Cache Array Size:" << arrSize;
+
+    for(int i = 0; i < arrSize; ++i)
+    {
+        jsize index = static_cast<jint>(i);
+        QAndroidJniObject arrElem = m_env->GetObjectArrayElement(fileArray, index);
+        if(!arrElem.isValid())
+            qDebug() << "Failed to get element of array";
+
+        jboolean isDirectory = m_env->CallBooleanMethod(arrElem.object(), isDirectoryId);
+        jboolean isFile = m_env->CallBooleanMethod(arrElem.object(), isFileId);
+
+        if(arrElem.isValid() && isDirectory)
+        {
+            QAndroidJniObject arr = m_env->CallObjectMethod(arrElem.object(), listFilesId);
+            jboolean res = deleteDir(arr);
+            return res;
+        } else if(arrElem.isValid() && isFile) {
+            jboolean res = m_env->CallBooleanMethod(arrElem.object(), deleteId);
+            return res;
+        }
+    }
+    return true;
 }
 
 void AndroidJni::slotRunApp(QVariant index)

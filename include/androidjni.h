@@ -59,6 +59,7 @@ private:
     QAndroidJniObject m_activity;
 
     jlong sizeOfFiles(const QAndroidJniObject& obj);
+    jboolean deleteDir(QAndroidJniObject& dir);
 public slots:
     void slotRunApp(QVariant index);
     void slotAppInfo(QVariant index);
