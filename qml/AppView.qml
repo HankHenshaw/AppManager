@@ -105,7 +105,7 @@ ListView {
                 anchors.top: _infoImg.bottom
                 anchors.topMargin: 5
                 anchors.left: parent.left
-                width: parent.width
+                width: parent.width - 25
                 height: 3
                 color: Material.accent
             }
@@ -180,7 +180,7 @@ ListView {
                 anchors.top: _appTargetSdk.bottom
                 anchors.topMargin: 5
                 anchors.left: parent.left
-                width: parent.width
+                width: parent.width - 25
                 height: 3
                 color: Material.accent
             }
@@ -209,7 +209,7 @@ ListView {
                 anchors.top: _cacheSize.bottom
                 anchors.topMargin: 5
                 anchors.left: parent.left
-                width: parent.width
+                width: parent.width - 25
                 height: 3
                 color: Material.accent
             }
@@ -238,7 +238,7 @@ ListView {
                 anchors.top: _lastUpdatedTime.bottom
                 anchors.topMargin: 5
                 anchors.left: parent.left
-                width: parent.width
+                width: parent.width - 25
                 height: 3
                 color: Material.accent
             }
