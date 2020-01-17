@@ -178,14 +178,14 @@ Window {
                 Dialog { //TODO?: Separator between header and text
                     id: _dialogAbout
 
-                    title: qsTr("About")
+                    title: qsTr("AppManager ver. 0.1")
                     focus: true
                     width: root.width * 0.9
                     height: root.height * 0.33
                     standardButtons: Dialog.Ok
 
                     Text {
-                        text: qsTr("Some Text")
+                        text: qsTr("Made with Qt and JNI")
                         color: textColor
                         anchors.centerIn: parent
                     }
