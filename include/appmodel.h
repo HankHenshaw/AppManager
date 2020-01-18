@@ -29,10 +29,12 @@ public:
     Q_INVOKABLE QVariant getLastUpdateTime(QVariant index);
     Q_INVOKABLE void deleteApp(QVariant index);
     Q_INVOKABLE void clearCache(QVariant index);
+    Q_INVOKABLE void switchChanged(bool state);
 private:
     ImageProvider *m_imgProvider;
-    AndroidJni m_native;
+    mutable AndroidJni m_native;
     QList<QString> m_nameList;
+    bool isShowAllApps;
 signals:
     void sigRunApp(QVariant index);
     void signalAppInfo(QVariant index);

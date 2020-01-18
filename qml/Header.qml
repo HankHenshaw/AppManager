@@ -76,6 +76,8 @@ Rectangle {
                     width: parent.width
                     height: parent.height/5
                     checked: false
+
+                    onCheckedChanged: AppModel.sourceModel.switchChanged(checked)
                 }
                 Switch{
                     id: _styleSwitch

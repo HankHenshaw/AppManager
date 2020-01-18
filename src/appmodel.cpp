@@ -3,7 +3,7 @@
 
 AppModel::AppModel(ImageProvider *ip, QObject *parent)
     : QAbstractListModel(parent),
-      m_imgProvider(ip)
+      m_imgProvider(ip), isShowAllApps(false)
 {
     m_native.getPackageName();
     m_native.getAppLabel();
@@ -30,8 +30,16 @@ QVariant AppModel::data(const QModelIndex &index, int role) const
     if(!index.isValid())
         return QVariant();
 
-    if(role == Qt::DisplayRole)
-        return m_nameList.at(index.row());
+    if(!isShowAllApps)
+    {
+        if(role == Qt::DisplayRole)
+            return m_nameList.at(index.row());
+    } else {
+        if(m_native.isSystemApp(index.row()) && role == Qt::DisplayRole)
+        {
+            return m_nameList.at(index.row());
+        }
+    }
 
     return QVariant();
 }
@@ -104,4 +112,11 @@ void AppModel::deleteApp(QVariant index)
 void AppModel::clearCache(QVariant index)
 {
     m_native.clearCache(index);
+}
+
+void AppModel::switchChanged(bool state)
+{
+    beginResetModel();
+    isShowAllApps = state;
+    endResetModel();
 }

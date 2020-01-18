@@ -47,6 +47,7 @@ public:
     void deleteApp(QVariant index);
     void clearCache(QVariant index);
     QVariant getPermissionsNumber();
+    bool isSystemApp(int index);
 private:
     QList<QString> m_listOfPackName;
     QList<QImage> m_listOfPackIcon;

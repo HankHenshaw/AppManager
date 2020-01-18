@@ -74,12 +74,12 @@ void AndroidJni::getPackageName()
         if(!notSystemStr)
             qDebug() << "Can't create systemStr string";
 
-        jboolean isNotSystemDir = m_env->CallBooleanMethod(sourceDir.object(), startsWithId, notSystemStr);
-        if(isNotSystemDir)
+//        jboolean isNotSystemDir = m_env->CallBooleanMethod(sourceDir.object(), startsWithId, notSystemStr);
+//        if(isNotSystemDir) //TODO: Clean up
             m_listOfPackName.append(packName.toString());
         /*Compare if packName system or not*/
     }
-    m_listOfPackName.append("com.google.android.youtube"); //TODO: Remove
+//    m_listOfPackName.append("com.google.android.youtube"); //TODO: Remove
     qDebug() << "Pass through all functions";
 }
 
@@ -978,6 +978,55 @@ void AndroidJni::clearCache(QVariant index) // TODO: Директори кэша
 QVariant AndroidJni::getPermissionsNumber()
 {
     return m_numberOfPermissions;
+}
+
+bool AndroidJni::isSystemApp(int index)
+{
+    QAndroidJniObject context = QtAndroid::androidContext();
+
+    QAndroidJniObject pm = context.callObjectMethod("getPackageManager", "()Landroid/content/pm/PackageManager;");
+
+    jclass pmClass = m_env.findClass("android/content/pm/PackageManager");
+    if(!pmClass)
+        qDebug() << "can't find package manager class";
+    jmethodID getAppInfoId = m_env->GetMethodID(pmClass, "getApplicationInfo", "(Ljava/lang/String;I)Landroid/content/pm/ApplicationInfo;");
+    if(!getAppInfoId)
+        qDebug() << "can't get method getApplicationInfo";
+
+    jstring packNameString = m_env->NewStringUTF(m_listOfPackName.at(index).toStdString().c_str());
+    if(!packNameString)
+        qDebug() << "Can't create new jstring with package name";
+
+    QAndroidJniObject appInfo = m_env->CallObjectMethod(pm.object(), getAppInfoId, packNameString, 0);
+    if(!appInfo.isValid())
+        qDebug() << "can't get appInfo";
+
+    jclass appInfoClass = m_env.findClass("android/content/pm/ApplicationInfo");
+    if(!appInfoClass)
+        qDebug() << "Can't find app info class";
+
+    jfieldID sourceDirId = m_env->GetFieldID(appInfoClass, "sourceDir", "Ljava/lang/String;");
+    if(!sourceDirId)
+        qDebug() << "Can't get sourceDir field Id";
+
+    QAndroidJniObject sourceDir = m_env->GetObjectField(appInfo.object(), sourceDirId);
+    if(!sourceDir.isValid())
+        qDebug() << "can't get sourceDir field";
+
+    jclass stringClass = m_env.findClass("java/lang/String");
+    if(!stringClass)
+        qDebug() << "Can't find jstring class";
+
+    jmethodID startsWithId = m_env->GetMethodID(stringClass, "startsWith", "(Ljava/lang/String;)Z");
+    if(!startsWithId)
+        qDebug() << "Can't get starts with ID";
+
+    jstring notSystemStr = m_env->NewStringUTF("/data/app/");
+    if(!notSystemStr)
+        qDebug() << "Can't create systemStr string";
+
+    jboolean isNotSystemDir = m_env->CallBooleanMethod(sourceDir.object(), startsWithId, notSystemStr);
+    return isNotSystemDir;
 }
 
 jlong AndroidJni::sizeOfFiles(const QAndroidJniObject &obj)
