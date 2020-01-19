@@ -84,7 +84,7 @@ ListView {
                     anchors.left: parent.right
                     anchors.leftMargin: 10
                     color: textColor
-                    text: qsTr("Version: " + "14.95.13.21")
+                    text: qsTr("Version: ")//???
                 }
 
                 Text {

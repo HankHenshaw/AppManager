@@ -23,6 +23,9 @@ SOURCES += \
 RESOURCES += qml.qrc \
     resources.qrc
 
+TRANSLATIONS += \
+    appManager_ru_RU.ts
+
 INCLUDEPATH += $$PWD/include/
 
 # Additional import path used to resolve QML modules in Qt Creator's code model

@@ -50,7 +50,7 @@ Rectangle {
                 Button {
                     id: _buttonFilters
 
-                    text: "Filters"
+                    text: qsTr("Filters")
                     width: parent.width
                     height: parent.height/5
 
@@ -61,7 +61,7 @@ Rectangle {
                 Button {
                     id: _buttonAdvOptions
 
-                    text: "Options"
+                    text: qsTr("Options")
                     width: parent.width
                     height: parent.height/5
 
@@ -72,7 +72,7 @@ Rectangle {
                 Switch{
                     id: _fullList
 
-                    text: "Show All Apps"
+                    text: qsTr("Show All Apps")
                     width: parent.width
                     height: parent.height/5
                     checked: false
@@ -82,7 +82,7 @@ Rectangle {
                 Switch{
                     id: _styleSwitch
 
-                    text: "Change Style"
+                    text: qsTr("Change Style")
                     width: parent.width
                     height: parent.height/5
                     checked: false
@@ -94,7 +94,7 @@ Rectangle {
                 Button{
                     id: _buttonQuit
 
-                    text: "Quit"
+                    text: qsTr("Quit")
                     width: parent.width
                     height: parent.height/5
 
