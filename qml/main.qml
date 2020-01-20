@@ -157,12 +157,20 @@ Window {
                 id: _languageColumn
 
                 CheckBox {
+                    id: _enCheckBox
+
                     text: "English"
                     checked: true
                 }
                 CheckBox {
+                    id: _ruCheckBox
+
                     text: "Русский"
                     checked: false
+                    onCheckedChanged:
+                    {
+                        AppModel.sourceModel.changeLanguage(!checked);
+                    }
                 }
             }
             /*Language*/

@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QAbstractListModel>
+#include <QTranslator>
 #include "imageprovider.h"
 #include "androidjni.h"
 
@@ -30,11 +31,13 @@ public:
     Q_INVOKABLE void deleteApp(QVariant index);
     Q_INVOKABLE void clearCache(QVariant index);
     Q_INVOKABLE void switchChanged(bool state);
+    Q_INVOKABLE void changeLanguage(bool isEnglish);
 private:
     ImageProvider *m_imgProvider;
     mutable AndroidJni m_native;
     QList<QString> m_nameList;
     bool isShowAllApps;
+    QTranslator *translator;
 signals:
     void sigRunApp(QVariant index);
     void signalAppInfo(QVariant index);
