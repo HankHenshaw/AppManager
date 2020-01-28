@@ -10,6 +10,7 @@ Work In Progress
 ![Screen3-4](https://i.imgur.com/0gPFfId.png)
 ![Screen5](https://i.imgur.com/qTPZkxv.png)
 
+P.S. Временно не обновляется, т.к. после последнего обновления Qt перестал разворачивать любые приложения под Android
 
 License
 ----
