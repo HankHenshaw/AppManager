@@ -13,8 +13,8 @@ Work In Progress
 #TODO
 
 Add Russian translation
-Fixed Apps Deletion
-Fixed Apps Displaying after press show all apps button
+Fix Apps Deletion
+Fix Apps Displaying after press show all apps button
 
 License
 ----
