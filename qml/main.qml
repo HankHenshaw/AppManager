@@ -61,17 +61,22 @@ Window {
             anchors.fill: parent
 
             Text {
+                id: _sortOrderText
+
                 text: qsTr("Sorting order:")
                 font.bold: true
                 color: textColor
             }
             RadioButton { //TODO: Search for better slot
+                id: _ascRadioButton
+
                 text: qsTr("Ascending order")
                 onPressed: {
                     signalSortingOrder(0)
                 }
             }
             RadioButton {
+                id: _desRadioButton
                 text: qsTr("Descending order")
                 onPressed: {
                     signalSortingOrder(1)
@@ -142,6 +147,8 @@ Window {
 
             /*Language*/
             Text {
+                id: _lngText
+
                 text: qsTr("Language")
                 color: textColor
             }
@@ -165,11 +172,39 @@ Window {
                 CheckBox {
                     id: _ruCheckBox
 
+                    objectName: "langChange"
+
                     text: "Русский"
                     checked: false
                     onCheckedChanged:
                     {
-                        AppModel.sourceModel.changeLanguage(!checked);
+                        console.log("Checkbox state:", _ruCheckBox.checked)
+                        if(_ruCheckBox.checked)
+                        {
+                            _buttonAbout.text = "О Приложении"
+                            _dialogAbout.title = "AppManager версия 0.1"
+                            _dialogAboutText.text = "Сделано с помощью Qt и JNI"
+                            _lngText.text = "Язык"
+                            _upperDeleteText.text = "Вы действительно хотите удалить\nэто приложение?"
+                            _dialogDeleteApp.title = "Удалить Приложение"
+                            _upperRemoveText.text = "Вы действительно хотите убрать\nэто приложение из списка?"
+                            _dialogRemoveApp.title = "Убрать приложение из списка"
+                            _sortOrderText.text = "Порядок сортировки:"
+                            _ascRadioButton.text = "По Возрастанию"
+                            _desRadioButton.text = "По Убыванию"
+                        } else {
+                            _buttonAbout.text = "About App"
+                            _dialogAbout.title = "AppManager ver. 0.1"
+                            _dialogAboutText.text = "Made with Qt and JNI"
+                            _lngText.text = "Language"
+                            _upperDeleteText.text = "Are you sure want to erase\nthis application from your device?"
+                            _dialogDeleteApp.title = "Delete Application"
+                            _upperRemoveText.text = "Are you sure want to remove\nthis application from this list?"
+                            _dialogRemoveApp.title = "Remove Application"
+                            _sortOrderText.text = "Sorting order:"
+                            _ascRadioButton.text = "Ascending order"
+                            _desRadioButton.text = "Descending order"
+                        }
                     }
                 }
             }
@@ -193,6 +228,7 @@ Window {
                     standardButtons: Dialog.Ok
 
                     Text {
+                        id: _dialogAboutText
                         text: qsTr("Made with Qt and JNI")
                         color: textColor
                         anchors.centerIn: parent

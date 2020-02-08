@@ -31,7 +31,6 @@ public:
     Q_INVOKABLE void deleteApp(QVariant index);
     Q_INVOKABLE void clearCache(QVariant index);
     Q_INVOKABLE void switchChanged(bool state);
-    Q_INVOKABLE void changeLanguage(bool isEnglish);
 private:
     ImageProvider *m_imgProvider;
     mutable AndroidJni m_native;

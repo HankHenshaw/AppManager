@@ -1,6 +1,7 @@
 #include "appmodel.h"
 #include <QDebug>
 #include <QCoreApplication>
+#include <QQmlApplicationEngine>
 
 AppModel::AppModel(ImageProvider *ip, QObject *parent)
     : QAbstractListModel(parent),
@@ -120,27 +121,4 @@ void AppModel::switchChanged(bool state)
     beginResetModel();
     isShowAllApps = state;
     endResetModel();
-}
-
-void AppModel::changeLanguage(bool isEnglish)
-{
-    qDebug() << "Language test";
-    QQmlEngine eg;
-    if(isEnglish)
-    {
-        qDebug() << "En";
-        QCoreApplication::removeTranslator(translator);
-        translator = new QTranslator;
-        translator->load(QCoreApplication::applicationName() + "_" + "en");
-        QCoreApplication::installTranslator(translator);
-        eg.retranslate();
-    } else {
-        qDebug() << "Ru";
-        QCoreApplication::removeTranslator(translator);
-        translator = new QTranslator;
-        translator->load(QCoreApplication::applicationName() + "_" + "en");
-        QCoreApplication::installTranslator(translator);
-        eg.retranslate();
-    }
-
 }

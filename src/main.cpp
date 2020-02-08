@@ -23,6 +23,7 @@ int main(int argc, char *argv[])
 
     QQuickStyle::setStyle("Material");
     QQmlApplicationEngine engine;
+
     engine.rootContext()->setContextProperty("provider", imgProvider.data());
     engine.addImageProvider("prov", imgProvider.data());
     engine.rootContext()->setContextProperty("AppModel", &proxy);
