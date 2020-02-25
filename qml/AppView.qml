@@ -13,6 +13,7 @@ ListView {
     signal signalGetAppInfo(var i)
 
     readonly property Popup popupInfo: _popUpAppInfo
+    readonly property Text pathInfo: _path
 
     delegate: Element {
         id: _elem

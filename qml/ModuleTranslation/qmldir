@@ -1,0 +1,2 @@
+module ModuleTranslation
+singleton Translation 1.0 Translation.qml

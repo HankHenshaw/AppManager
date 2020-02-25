@@ -4,5 +4,7 @@
         <file>qml/Element.qml</file>
         <file>qml/AppView.qml</file>
         <file>qml/Header.qml</file>
+        <file>qml/ModuleTranslation/qmldir</file>
+        <file>qml/ModuleTranslation/Translation.qml</file>
     </qresource>
 </RCC>

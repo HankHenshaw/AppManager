@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.12
 import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material 2.12
+import ModuleTranslation 1.0
 
 Rectangle {
     id: root
@@ -59,23 +60,41 @@ Rectangle {
         Material.background: "transparent"
 
         onClicked: {
+//            _infoImg.source = "image://prov/" + modelIndex
+//            _appName.text = appLabel
+//            _appPackageName.text = AppModel.sourceModel.getPackageName(modelIndex)
+//            _appPath.text = AppModel.sourceModel.getPackagePath(modelIndex)
+//            _appMinSdk.text = qsTr("Minimum Sdk Version: ") + AppModel.sourceModel.getMinSdk(modelIndex)
+//            _appTargetSdk.text = qsTr("Target Sdk Version: ") + AppModel.sourceModel.getTargetSdk(modelIndex)
+//            _appVersion.text = qsTr("Version: ") + AppModel.sourceModel.getVersion(modelIndex)
+//            _appCategory.text = qsTr("Category: ") + AppModel.sourceModel.getCategory(modelIndex)
+//            _packSize.text = qsTr("Package Size: ~") + AppModel.sourceModel.getPackageSize(modelIndex) + qsTr(" MB")
+//            _cacheSize.text = qsTr("Cache Size: ~") + AppModel.sourceModel.getCacheSize(modelIndex) + qsTr(" KB")
+//            _requestedPremissions.text = AppModel.sourceModel.getRequestedPermissions(modelIndex)
+//            _flick.contentHeight = _popUpAppInfo.height + 16 * AppModel.sourceModel.getPermissionsNumber()
+//            _firstInstallationTime.text = qsTr("First Installation Time: ") + AppModel.sourceModel.getFirstInstallationTime(modelIndex)
+//            if(AppModel.sourceModel.getFirstInstallationTime(modelIndex) === AppModel.sourceModel.getLastUpdateTime(modelIndex))
+//                _lastUpdatedTime.text = qsTr("Last Updated Time: Never been updated")
+//            else
+//                _lastUpdatedTime.text = qsTr("Last Updated Time: ") + AppModel.sourceModel.getLastUpdateTime(modelIndex)
+//            _contextMenu.popup()
             _infoImg.source = "image://prov/" + modelIndex
             _appName.text = appLabel
             _appPackageName.text = AppModel.sourceModel.getPackageName(modelIndex)
             _appPath.text = AppModel.sourceModel.getPackagePath(modelIndex)
-            _appMinSdk.text = qsTr("Minimum Sdk Version: ") + AppModel.sourceModel.getMinSdk(modelIndex)
-            _appTargetSdk.text = qsTr("Target Sdk Version: ") + AppModel.sourceModel.getTargetSdk(modelIndex)
-            _appVersion.text = qsTr("Version: ") + AppModel.sourceModel.getVersion(modelIndex)
-            _appCategory.text = qsTr("Category: ") + AppModel.sourceModel.getCategory(modelIndex)
-            _packSize.text = qsTr("Package Size: ~") + AppModel.sourceModel.getPackageSize(modelIndex) + qsTr(" MB")
-            _cacheSize.text = qsTr("Cache Size: ~") + AppModel.sourceModel.getCacheSize(modelIndex) + qsTr(" KB")
+            _appMinSdk.text = Translation.txtMinSdk + AppModel.sourceModel.getMinSdk(modelIndex)
+            _appTargetSdk.text = Translation.txtTargetSdk + AppModel.sourceModel.getTargetSdk(modelIndex)
+            _appVersion.text = Translation.txtVersion + AppModel.sourceModel.getVersion(modelIndex)
+            _appCategory.text = Translation.txtCategory + AppModel.sourceModel.getCategory(modelIndex)
+            _packSize.text = Translation.txtPckgSize + AppModel.sourceModel.getPackageSize(modelIndex) + Translation.txtPckgSize2
+            _cacheSize.text = Translation.txtCacheSize + AppModel.sourceModel.getCacheSize(modelIndex) + Translation.txtCacheSize2
             _requestedPremissions.text = AppModel.sourceModel.getRequestedPermissions(modelIndex)
             _flick.contentHeight = _popUpAppInfo.height + 16 * AppModel.sourceModel.getPermissionsNumber()
-            _firstInstallationTime.text = qsTr("First Installation Time: ") + AppModel.sourceModel.getFirstInstallationTime(modelIndex)
+            _firstInstallationTime.text = Translation.txtFirstInstlTime + AppModel.sourceModel.getFirstInstallationTime(modelIndex)
             if(AppModel.sourceModel.getFirstInstallationTime(modelIndex) === AppModel.sourceModel.getLastUpdateTime(modelIndex))
-                _lastUpdatedTime.text = qsTr("Last Updated Time: Never been updated")
+                _lastUpdatedTime.text = Translation.txtUpdateTime1
             else
-                _lastUpdatedTime.text = qsTr("Last Updated Time: ") + AppModel.sourceModel.getLastUpdateTime(modelIndex)
+                _lastUpdatedTime.text = Translation.txtUpdateTime2 + AppModel.sourceModel.getLastUpdateTime(modelIndex)
             _contextMenu.popup()
         }
 
@@ -85,7 +104,7 @@ Rectangle {
             Action {
                 id: _actionRunApp
 
-                text: qsTr("Run App")
+                text: Translation.txtRunApp
                 onTriggered: {
                     signalRunApp(modelIndex)
                 }
@@ -93,7 +112,7 @@ Rectangle {
             Action {
                 id: _actionRemoveApp
 
-                text: qsTr("Remove App")
+                text: Translation.txtRemoveApp
                 onTriggered: {
                     dialogRemove.open()
                 }
@@ -101,7 +120,7 @@ Rectangle {
             Action {
                 id: _actionAppInfo
 
-                text: qsTr("App Info")
+                text: Translation.txtInfoApp
                 onTriggered: {
                     signalGetAppInfo(modelIndex)
                     popupInfo.open()
@@ -112,7 +131,7 @@ Rectangle {
             Action {
                 id: _actionDeleteApp
 
-                text: qsTr("Delete App")
+                text: Translation.txtDeleteApp
                 onTriggered: {
                     //dialogDelete.open()
                     //AppModel.sourceModel.deleteApp(modelIndex)

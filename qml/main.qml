@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
+import ModuleTranslation 1.0
 
 Window {
     id: root
@@ -43,6 +44,8 @@ Window {
         height: parent.height - _header.height
         z: -1
         AppView {
+            id: _aView
+
             anchors.fill: parent
         }
     }
@@ -178,33 +181,38 @@ Window {
                     checked: false
                     onCheckedChanged:
                     {
-                        console.log("Checkbox state:", _ruCheckBox.checked)
-                        if(_ruCheckBox.checked)
-                        {
-                            _buttonAbout.text = "О Приложении"
-                            _dialogAbout.title = "AppManager версия 0.1"
-                            _dialogAboutText.text = "Сделано с помощью Qt и JNI"
-                            _lngText.text = "Язык"
-                            _upperDeleteText.text = "Вы действительно хотите удалить\nэто приложение?"
-                            _dialogDeleteApp.title = "Удалить Приложение"
-                            _upperRemoveText.text = "Вы действительно хотите убрать\nэто приложение из списка?"
-                            _dialogRemoveApp.title = "Убрать приложение из списка"
-                            _sortOrderText.text = "Порядок сортировки:"
-                            _ascRadioButton.text = "По Возрастанию"
-                            _desRadioButton.text = "По Убыванию"
-                        } else {
-                            _buttonAbout.text = "About App"
-                            _dialogAbout.title = "AppManager ver. 0.1"
-                            _dialogAboutText.text = "Made with Qt and JNI"
-                            _lngText.text = "Language"
-                            _upperDeleteText.text = "Are you sure want to erase\nthis application from your device?"
-                            _dialogDeleteApp.title = "Delete Application"
-                            _upperRemoveText.text = "Are you sure want to remove\nthis application from this list?"
-                            _dialogRemoveApp.title = "Remove Application"
-                            _sortOrderText.text = "Sorting order:"
-                            _ascRadioButton.text = "Ascending order"
-                            _desRadioButton.text = "Descending order"
-                        }
+                        //console.log("Checkbox state:", _ruCheckBox.checked)
+                        console.log("isRussianLanguage state:", Translation.isRussianLanguage)
+                        Translation.isRussianLanguage = !Translation.isRussianLanguage
+                        console.log("isRussianLanguage state:", Translation.isRussianLanguage)
+//                        _buttonAbout.text = Locale.testText
+//                        if(_ruCheckBox.checked)
+//                        {
+//                            _buttonAbout.text = "О Приложении"
+//                            _dialogAbout.title = "AppManager версия 0.1"
+//                            _dialogAboutText.text = "Сделано с помощью Qt и JNI"
+//                            _lngText.text = "Язык"
+//                            _upperDeleteText.text = "Вы действительно хотите удалить\nэто приложение?"
+//                            _dialogDeleteApp.title = "Удалить Приложение"
+//                            _upperRemoveText.text = "Вы действительно хотите убрать\nэто приложение из списка?"
+//                            _dialogRemoveApp.title = "Убрать приложение из списка"
+//                            _sortOrderText.text = "Порядок сортировки:"
+//                            _ascRadioButton.text = "По Возрастанию"
+//                            _desRadioButton.text = "По Убыванию"
+//                        } else {
+//                            _buttonAbout.text = "About App"
+//                            _dialogAbout.title = "AppManager ver. 0.1"
+//                            _dialogAboutText.text = "Made with Qt and JNI"
+//                            _lngText.text = "Language"
+//                            _upperDeleteText.text = "Are you sure want to erase\nthis application from your device?"
+//                            _dialogDeleteApp.title = "Delete Application"
+//                            _upperRemoveText.text = "Are you sure want to remove\nthis application from this list?"
+//                            _dialogRemoveApp.title = "Remove Application"
+//                            _sortOrderText.text = "Sorting order:"
+//                            _ascRadioButton.text = "Ascending order"
+//                            _desRadioButton.text = "Descending order"
+//                        }
+
                     }
                 }
             }
@@ -237,5 +245,12 @@ Window {
             }
 
         }
+    }
+    Component.onCompleted: {
+        console.log("Russian val state: ", Translation.isRussianLanguage)
+//        console.log("Language: ")
+//        console.log(_aView._path.text)
+//        if(!Locale.isRussianLanguage) console.log("English")
+//        else console.log("Russian")
     }
 }
