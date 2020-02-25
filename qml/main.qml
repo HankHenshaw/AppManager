@@ -13,7 +13,6 @@ Window {
 
     property var themeStyle: Material.Dark
     readonly property Window mainWindow: root
-//    readonly property Popup popupInfo: _popUpAppInfo
     readonly property Dialog dialogRemove: _dialogRemoveApp
     readonly property Dialog dialogDelete: _dialogDeleteApp
     readonly property Popup popupAdvOptions: _popUpAdvOptions
@@ -66,21 +65,22 @@ Window {
             Text {
                 id: _sortOrderText
 
-                text: qsTr("Sorting order:")
+                text: Translation.txtSortOrder
                 font.bold: true
                 color: textColor
             }
             RadioButton { //TODO: Search for better slot
                 id: _ascRadioButton
 
-                text: qsTr("Ascending order")
+                text: Translation.txtSortAsc
                 onPressed: {
                     signalSortingOrder(0)
                 }
             }
             RadioButton {
                 id: _desRadioButton
-                text: qsTr("Descending order")
+
+                text: Translation.txtSortDesc
                 onPressed: {
                     signalSortingOrder(1)
                 }
@@ -91,7 +91,7 @@ Window {
     Dialog {
         id: _dialogRemoveApp
 
-        title: qsTr("Remove Application")
+        title: Translation.txtRemoveTitle
         focus: true
         width: parent.width * 0.9
         height: parent.height * 0.33
@@ -104,7 +104,7 @@ Window {
         Text {
             id: _upperRemoveText
 
-            text: qsTr("Are you sure want to remove\nthis application from this list?") //TODO: Replace application with real app name
+            text: Translation.txtRemoveTxt
             color: textColor
             anchors.centerIn: parent
         }
@@ -113,7 +113,7 @@ Window {
     Dialog {
         id: _dialogDeleteApp
 
-        title: qsTr("Delete Application")
+        title: Translation.txtDeleteTitle
         focus: true
         width: parent.width * 0.9
         height: parent.height * 0.33
@@ -126,8 +126,7 @@ Window {
         Text { //TODO: accept, reject slots
             id: _upperDeleteText
 
-
-            text: qsTr("Are you sure want to erase\nthis application from your device?") //TODO: Replace application with real app name
+            text: Translation.txtDeleteTxt
             color: textColor
             anchors.centerIn: parent
         }
@@ -152,7 +151,7 @@ Window {
             Text {
                 id: _lngText
 
-                text: qsTr("Language")
+                text: Translation.txtLng
                 color: textColor
             }
 
@@ -181,38 +180,7 @@ Window {
                     checked: false
                     onCheckedChanged:
                     {
-                        //console.log("Checkbox state:", _ruCheckBox.checked)
-                        console.log("isRussianLanguage state:", Translation.isRussianLanguage)
                         Translation.isRussianLanguage = !Translation.isRussianLanguage
-                        console.log("isRussianLanguage state:", Translation.isRussianLanguage)
-//                        _buttonAbout.text = Locale.testText
-//                        if(_ruCheckBox.checked)
-//                        {
-//                            _buttonAbout.text = "О Приложении"
-//                            _dialogAbout.title = "AppManager версия 0.1"
-//                            _dialogAboutText.text = "Сделано с помощью Qt и JNI"
-//                            _lngText.text = "Язык"
-//                            _upperDeleteText.text = "Вы действительно хотите удалить\nэто приложение?"
-//                            _dialogDeleteApp.title = "Удалить Приложение"
-//                            _upperRemoveText.text = "Вы действительно хотите убрать\nэто приложение из списка?"
-//                            _dialogRemoveApp.title = "Убрать приложение из списка"
-//                            _sortOrderText.text = "Порядок сортировки:"
-//                            _ascRadioButton.text = "По Возрастанию"
-//                            _desRadioButton.text = "По Убыванию"
-//                        } else {
-//                            _buttonAbout.text = "About App"
-//                            _dialogAbout.title = "AppManager ver. 0.1"
-//                            _dialogAboutText.text = "Made with Qt and JNI"
-//                            _lngText.text = "Language"
-//                            _upperDeleteText.text = "Are you sure want to erase\nthis application from your device?"
-//                            _dialogDeleteApp.title = "Delete Application"
-//                            _upperRemoveText.text = "Are you sure want to remove\nthis application from this list?"
-//                            _dialogRemoveApp.title = "Remove Application"
-//                            _sortOrderText.text = "Sorting order:"
-//                            _ascRadioButton.text = "Ascending order"
-//                            _desRadioButton.text = "Descending order"
-//                        }
-
                     }
                 }
             }
@@ -224,12 +192,13 @@ Window {
                 id: _buttonAbout
 
                 text: qsTr("About App")
+//                text: Trannslation.txtAbout // TODO
                 onClicked: _dialogAbout.open()
 
                 Dialog { //TODO?: Separator between header and text
                     id: _dialogAbout
 
-                    title: qsTr("AppManager ver. 0.1")
+                    title: Translation.txtAboutTitle
                     focus: true
                     width: root.width * 0.9
                     height: root.height * 0.33
@@ -237,7 +206,8 @@ Window {
 
                     Text {
                         id: _dialogAboutText
-                        text: qsTr("Made with Qt and JNI")
+
+                        text: Translation.txtAboutText
                         color: textColor
                         anchors.centerIn: parent
                     }
@@ -247,7 +217,7 @@ Window {
         }
     }
     Component.onCompleted: {
-        console.log("Russian val state: ", Translation.isRussianLanguage)
+//        console.log("Russian val state: ", Translation.isRussianLanguage)
 //        console.log("Language: ")
 //        console.log(_aView._path.text)
 //        if(!Locale.isRussianLanguage) console.log("English")
