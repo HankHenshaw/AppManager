@@ -60,24 +60,6 @@ Rectangle {
         Material.background: "transparent"
 
         onClicked: {
-//            _infoImg.source = "image://prov/" + modelIndex
-//            _appName.text = appLabel
-//            _appPackageName.text = AppModel.sourceModel.getPackageName(modelIndex)
-//            _appPath.text = AppModel.sourceModel.getPackagePath(modelIndex)
-//            _appMinSdk.text = qsTr("Minimum Sdk Version: ") + AppModel.sourceModel.getMinSdk(modelIndex)
-//            _appTargetSdk.text = qsTr("Target Sdk Version: ") + AppModel.sourceModel.getTargetSdk(modelIndex)
-//            _appVersion.text = qsTr("Version: ") + AppModel.sourceModel.getVersion(modelIndex)
-//            _appCategory.text = qsTr("Category: ") + AppModel.sourceModel.getCategory(modelIndex)
-//            _packSize.text = qsTr("Package Size: ~") + AppModel.sourceModel.getPackageSize(modelIndex) + qsTr(" MB")
-//            _cacheSize.text = qsTr("Cache Size: ~") + AppModel.sourceModel.getCacheSize(modelIndex) + qsTr(" KB")
-//            _requestedPremissions.text = AppModel.sourceModel.getRequestedPermissions(modelIndex)
-//            _flick.contentHeight = _popUpAppInfo.height + 16 * AppModel.sourceModel.getPermissionsNumber()
-//            _firstInstallationTime.text = qsTr("First Installation Time: ") + AppModel.sourceModel.getFirstInstallationTime(modelIndex)
-//            if(AppModel.sourceModel.getFirstInstallationTime(modelIndex) === AppModel.sourceModel.getLastUpdateTime(modelIndex))
-//                _lastUpdatedTime.text = qsTr("Last Updated Time: Never been updated")
-//            else
-//                _lastUpdatedTime.text = qsTr("Last Updated Time: ") + AppModel.sourceModel.getLastUpdateTime(modelIndex)
-//            _contextMenu.popup()
             _infoImg.source = "image://prov/" + modelIndex
             _appName.text = appLabel
             _appPackageName.text = AppModel.sourceModel.getPackageName(modelIndex)

@@ -21,6 +21,7 @@ QtObject{
     property var txtInfoApp: isRussianLanguage ? "Информиция" : "App Info"
     property var txtDeleteApp: isRussianLanguage ? "Удалить" : "Delete App"
 
+    property var txtAboutTest: "About App"
     property var txtAbout: isRussianLanguage ? "О Приложении" : "About App"
     property var txtAboutTitle: isRussianLanguage ? "AppManager версия 0.1" : "AppManager ver. 0.1"
     property var txtAboutText: isRussianLanguage ? "Сделано с помощью Qt и JNI" : "Made with Qt and JNI"
@@ -33,5 +34,9 @@ QtObject{
     property var txtSortAsc: isRussianLanguage ? "По Возрастанию" : "Ascending order"
     property var txtSortDesc: isRussianLanguage ? "По Убыванию" : "Descending order"
 
-
+    property var txtFilters: isRussianLanguage ? "Фильтры" : "Filters"
+    property var txtOptions: isRussianLanguage ? "Опции" : "Options"
+    property var txtShowSwitch: isRussianLanguage ? "Все Приложения" : "Show All Apps" // ТОДО
+    property var txtStyle: isRussianLanguage ? "Изменить Стиль" : "Change Style"
+    property var txtQuit: isRussianLanguage ? "Выход" : "Quit"
 }

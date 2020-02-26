@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
+import ModuleTranslation 1.0
 
 Rectangle {
     id: root
@@ -50,7 +51,7 @@ Rectangle {
                 Button {
                     id: _buttonFilters
 
-                    text: qsTr("Filters")
+                    text: Translation.txtFilters
                     width: parent.width
                     height: parent.height/5
 
@@ -61,7 +62,7 @@ Rectangle {
                 Button {
                     id: _buttonAdvOptions
 
-                    text: qsTr("Options")
+                    text: Translation.txtOptions
                     width: parent.width
                     height: parent.height/5
 
@@ -72,7 +73,7 @@ Rectangle {
                 Switch{
                     id: _fullList
 
-                    text: qsTr("Show All Apps")
+                    text: Translation.txtShowSwitch
                     width: parent.width
                     height: parent.height/5
                     checked: false
@@ -82,7 +83,7 @@ Rectangle {
                 Switch{
                     id: _styleSwitch
 
-                    text: qsTr("Change Style")
+                    text: Translation.txtStyle
                     width: parent.width
                     height: parent.height/5
                     checked: false
@@ -94,7 +95,7 @@ Rectangle {
                 Button{
                     id: _buttonQuit
 
-                    text: qsTr("Quit")
+                    text: Translation.txtQuit
                     width: parent.width
                     height: parent.height/5
 

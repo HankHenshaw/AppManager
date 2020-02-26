@@ -191,8 +191,7 @@ Window {
             Button {
                 id: _buttonAbout
 
-                text: qsTr("About App")
-//                text: Trannslation.txtAbout // TODO
+                text: Translation.txtAbout
                 onClicked: _dialogAbout.open()
 
                 Dialog { //TODO?: Separator between header and text
