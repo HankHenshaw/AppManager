@@ -12,7 +12,6 @@ Work In Progress
 
 #TODO
 
-Add Russian translation
 Fix Apps Deletion
 Fix Apps Displaying after press show all apps button
 
