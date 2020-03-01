@@ -13,7 +13,6 @@ Work In Progress
 #TODO
 
 Fix Apps Deletion
-Fix Apps Displaying after press show all apps button
 
 License
 ----
