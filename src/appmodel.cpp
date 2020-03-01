@@ -20,19 +20,18 @@ AppModel::AppModel(ImageProvider *ip, QObject *parent)
 
 int AppModel::rowCount(const QModelIndex &parent) const
 {
-//    qDebug() << "rowCount =" << m_nameList.size();
     Q_UNUSED(parent)
+    if(!isShowAllApps) return m_native.getNumberOfNonSystemApp();
+    qDebug() << "rowCount =" << m_nameList.size();
     return m_nameList.size();
 }
 
 QVariant AppModel::data(const QModelIndex &index, int role) const
 {
-    qDebug() << "Get Data";
-
     if(!index.isValid())
         return QVariant();
 
-    if(!isShowAllApps)
+    if(isShowAllApps)
     {
         if(role == Qt::DisplayRole)
             return m_nameList.at(index.row());

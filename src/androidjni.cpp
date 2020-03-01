@@ -74,12 +74,23 @@ void AndroidJni::getPackageName()
         if(!notSystemStr)
             qDebug() << "Can't create systemStr string";
 
-//        jboolean isNotSystemDir = m_env->CallBooleanMethod(sourceDir.object(), startsWithId, notSystemStr);
-//        if(isNotSystemDir) //TODO: Clean up
+        jboolean isNotSystemDir = m_env->CallBooleanMethod(sourceDir.object(), startsWithId, notSystemStr);
+        if(isNotSystemDir)
+        {
+            ++m_numberOfNonSystemApp;
             m_listOfPackName.append(packName.toString());
+        } else {
+            m_listOfSysApps.append(packName.toString());
+        }
+
+//         m_listOfPackName.append(packName.toString());
         /*Compare if packName system or not*/
     }
 //    m_listOfPackName.append("com.google.android.youtube"); //TODO: Remove
+    qDebug() << "Size of System: " << m_listOfSysApps.size();
+    qDebug() << "Size of Non-System: " << m_listOfPackName.size();
+    m_listOfPackName.append(m_listOfSysApps);
+    qDebug() << "Size of All: " << m_listOfPackName.size();
     qDebug() << "Pass through all functions";
 }
 
@@ -1027,6 +1038,11 @@ bool AndroidJni::isSystemApp(int index)
 
     jboolean isNotSystemDir = m_env->CallBooleanMethod(sourceDir.object(), startsWithId, notSystemStr);
     return isNotSystemDir;
+}
+
+uint AndroidJni::getNumberOfNonSystemApp() const
+{
+    return m_numberOfNonSystemApp;
 }
 
 jlong AndroidJni::sizeOfFiles(const QAndroidJniObject &obj)

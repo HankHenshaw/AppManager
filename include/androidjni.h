@@ -48,6 +48,8 @@ public:
     void clearCache(QVariant index);
     QVariant getPermissionsNumber();
     bool isSystemApp(int index);
+    uint getNumberOfNonSystemApp() const;
+
 private:
     QList<QString> m_listOfPackName;
     QList<QImage> m_listOfPackIcon;
@@ -55,6 +57,7 @@ private:
     QList<QString> m_listOfSysApps; // TODO
     QImage m_icon;
     int m_numberOfPermissions;
+    uint m_numberOfNonSystemApp;
     //JNI Objects
     QAndroidJniEnvironment m_env;
     QAndroidJniObject m_activity;
